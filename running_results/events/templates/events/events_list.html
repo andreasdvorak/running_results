@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'events/events_navbar.html' %}
+<p>Liste der Veranstaltungen</p>
+{% for instance in object_list %}
+     <p>{{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a> <a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></p>
+{% endfor %}
+
+{% endblock %}
