@@ -3,3 +3,5 @@
 /fragen.txt
 /info.txt
 /konzept.txt
+/running_results/db.sqlite3
+/.gitignore
