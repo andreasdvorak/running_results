@@ -1,9 +1,7 @@
+/.gitignore
 /.vscode
 /env
-/fragen.txt
 /info.txt
-/konzept.txt
 /running_results/*/migrations
 /running_results/db.sqlite3
-/.gitignore
 /running_results/*/__pycache__/
