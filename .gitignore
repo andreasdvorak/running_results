@@ -6,4 +6,4 @@
 */migrations
 /running_results/db.sqlite3
 /.gitignore
-*/__pycache__
+*/__pycache__/*
