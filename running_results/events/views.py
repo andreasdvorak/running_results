@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import EventsForm
-from .models import Events
+from .models import Event
 
 
 def events_create_view(request):
@@ -15,7 +15,7 @@ def events_create_view(request):
 
 
 def events_update_view(request, id=id):
-    obj = get_object_or_404(Events, id=id)
+    obj = get_object_or_404(Event, id=id)
     form = EventsForm(request.POST or None, instance=obj)
     if form.is_valid():
         form.save()
@@ -26,14 +26,14 @@ def events_update_view(request, id=id):
 
 
 def events_list_view(request):
-    queryset = Events.objects.all() # list of objects
+    queryset = Event.objects.all() # list of objects
     context = {
         "object_list": queryset
     }
     return render(request, "events/events_list.html", context)
 
 def events_detail_view(request, id):
-    obj = get_object_or_404(Events, id=id)
+    obj = get_object_or_404(Event, id=id)
     context = {
         "object": obj
     }
@@ -41,7 +41,7 @@ def events_detail_view(request, id):
 
 
 def events_delete_view(request, id):
-    obj = get_object_or_404(Events, id=id)
+    obj = get_object_or_404(Event, id=id)
     if request.method == "POST":
         obj.delete()
         return redirect('../../')

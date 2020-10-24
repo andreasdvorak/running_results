@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # own
     'events',
     'pages',
+    'user',
 ]
 
 MIDDLEWARE = [

@@ -3,5 +3,7 @@
 /fragen.txt
 /info.txt
 /konzept.txt
+*/migrations
 /running_results/db.sqlite3
 /.gitignore
+*/__pycache__
