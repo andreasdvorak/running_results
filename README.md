@@ -3,6 +3,9 @@ Open source system to manage running result for sports clubs based on Django fra
 
 Please use the develop branch as the target for pull requests for on-going development.
 
+## Status
+first code and conception phase
+
 ## Features
 
 ## Requirements
@@ -35,4 +38,8 @@ python manage.py createsuperuser
 ## Language Settings
 
 ## Getting Help
+
+## Contributors
+
+## Demo
 
