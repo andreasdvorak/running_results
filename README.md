@@ -7,6 +7,9 @@ Please use the develop branch as the target for pull requests for on-going devel
 
 ## Requirements
 
+* Python 3.5+
++ Django ??
+
 ## Documentation
 
 ## Tuturial
