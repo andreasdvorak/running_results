@@ -21,7 +21,8 @@ first code and conception phase
 $ pip install --upgrade virtualenv
 $ python3 -m venv env
 $ source env/bin/activate
-(env) $ ?????
+
+(env) $ pip3 install -r  requirements.txt
 (env) $ python manage.py
 
 ## Database

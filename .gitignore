@@ -1,7 +1,8 @@
 /.gitignore
 /.vscode
-/env
+env
 /info.txt
 */*/migrations/*
 /running_results/db.sqlite3
 */*/__pycache__/*
+.idea
