@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'events/events_navbar.html' %}
+<p>Liste Jahre mit Veranstaltungen</p>
+{% if year_list %}
+{% for year in year_list %}
+<p>{{ year }}</a><p>
+{% endfor %}
+{% else %}
+<p>Es sind noch keine Veranstaltungen erfasst.</p>
+{% endif %}
+{% endblock %}

@@ -14,6 +14,7 @@ first code and conception phase
 + Django ??
 
 ## Documentation
+CCS with Bootstrap
 
 ## Tuturial
 

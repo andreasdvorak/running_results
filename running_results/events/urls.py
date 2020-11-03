@@ -5,11 +5,13 @@ from .views import (
     events_delete_view,
     events_list_view,
     events_update_view,
+    get_years_with_events,
 )
 
 app_name = 'events'
 urlpatterns = [
     path('', events_list_view, name='events-list'),
+    path('years', get_years_with_events, name='year-list'),
     path('create/', events_create_view, name='events-create'),
     path('<int:id>/', events_detail_view, name='events-detail'),
     path('<int:id>/update/', events_update_view, name='events-update'),

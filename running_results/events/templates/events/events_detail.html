@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 
-{%block content %}
-{% include 'events/events_navbar.html' %}
-<h1>In App template: {{ object.username }}</h1>
-<p>{% if object.description != None and object.description != '' %}{{ object.description }}{% else %}Description Coming Soon{% endif %}</p>
+{% block content %}
 
-{{ object.price }}
+<h1>Veranstaltungen {{ object.name }}</h1>
+{% if object %}
+<p>Datum {{ object.date }}</p>
+<p>Ort {{ object.location }}</p>
+<p>Webseite {{ object.website }}</p>
+<p>Bemerkung {{ object.note }}</p>
+
+{% else %}
+<p>Es sind noch keine Veranstaltungen erfasst.</p>
+{% endif %}
 {% endblock %}

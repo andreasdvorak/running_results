@@ -2,10 +2,21 @@
 
 {% block content %}
 
-{% include 'events/events_navbar.html' %}
 <p>Liste der Veranstaltungen</p>
+{% if object_list %}
+<table class="table table-striped">
+     <tr>
+          <th scope="col">Datum</th>
+          <th scope="col">Ort</th>
+     </tr>
 {% for instance in object_list %}
-     <p>{{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a> <a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></p>
+     <tr>
+          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a></td>
+          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></td>
 {% endfor %}
-
+     </tr>
+</table>
+{% else %}
+<p>Es sind noch keine Veranstaltungen erfasst.</p>
+{% endif %}
 {% endblock %}
