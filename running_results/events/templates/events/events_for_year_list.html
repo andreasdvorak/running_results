@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<p>List of events</p>
+
 {% if year_list %}
     <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -15,5 +17,24 @@
     </div>
 {% else %}
     <p>There are no events</p>
+{% endif %}
+
+<p></p>
+
+{% if object_list %}
+<table class="table table-striped">
+     <tr>
+          <th scope="col">Datum</th>
+          <th scope="col">Ort</th>
+     </tr>
+{% for instance in object_list %}
+     <tr>
+          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a></td>
+          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></td>
+{% endfor %}
+     </tr>
+</table>
+{% else %}
+<p>Es sind noch keine Veranstaltungen erfasst.</p>
 {% endif %}
 {% endblock %}
