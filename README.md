@@ -9,9 +9,9 @@ first code and conception phase
 ## Features
 
 ## Requirements
+requirments.txt
 
-* Python 3.5+
-+ Django ??
+and ...
 
 ## Documentation
 CCS with Bootstrap

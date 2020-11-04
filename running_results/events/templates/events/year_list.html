@@ -2,13 +2,18 @@
 
 {% block content %}
 
-{% include 'events/events_navbar.html' %}
-<p>Liste Jahre mit Veranstaltungen</p>
 {% if year_list %}
-{% for year in year_list %}
-<p>{{ year }}</a><p>
-{% endfor %}
+    <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        years with events
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {% for year in year_list %}
+        <a class="dropdown-item" href="#">{{ year }}</a>
+        {% endfor %}
+    </div>
+    </div>
 {% else %}
-<p>Es sind noch keine Veranstaltungen erfasst.</p>
+    <p>There are no events</p>
 {% endif %}
 {% endblock %}
