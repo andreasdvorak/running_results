@@ -25,7 +25,7 @@ def events_update_view(request, id=id):
     return render(request, "events/events_create.html", context)
 
 
-def events_list_view(request, year='2020'):
+def events_list_view(request, year):
     #queryset = Event.objects.all().order_by('-date') # list of objects
     queryset = Event.objects.filter(date__iregex=r'2020.*').order_by('-date')
     context = {
@@ -63,4 +63,4 @@ def get_years_with_events(request):
     context = {
         "year_list": years
     }
-    return render(request, "events/year_list.html", context)
+    return render(request, "events/year_filter.html", context)

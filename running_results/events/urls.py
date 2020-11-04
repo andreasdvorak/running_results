@@ -10,8 +10,9 @@ from .views import (
 
 app_name = 'events'
 urlpatterns = [
-    path('', events_list_view, name='events-list'),
-    path('years', get_years_with_events, name='year-list'),
+    path('', get_years_with_events, name='events-list'),
+    path('<int:year>/', events_list_view, name='events-list'),
+    path('year', get_years_with_events, name='year-list'),
     path('create/', events_create_view, name='events-create'),
     path('<int:id>/', events_detail_view, name='events-detail'),
     path('<int:id>/update/', events_update_view, name='events-update'),
