@@ -25,13 +25,19 @@ def events_update_view(request, id=id):
     return render(request, "events/events_create.html", context)
 
 
-def events_list_view(request, year):
-    #queryset = Event.objects.all().order_by('-date') # list of objects
-    queryset = Event.objects.filter(date__iregex=r'2020.*').order_by('-date')
+def events_for_year_list_view(request, year):
+    queryset = Event.objects.filter(date__iregex=r"{}.*".format(year)).order_by('-date')
+    queryset_years = Event.objects.all().order_by('-date')
+    years = []
+    for item in queryset_years:
+        year = item.date.year
+        if not year in years:
+            years.append(year)
     context = {
-        "object_list": queryset
+        "object_list": queryset,
+        "year_list": years,
     }
-    return render(request, "events/events_list.html", context)
+    return render(request, "events/events_for_year_list.html", context)
 
 
 def events_detail_view(request, id):
@@ -53,7 +59,7 @@ def events_delete_view(request, id):
     return render(request, "events/events_delete.html", context)
 
 
-def get_years_with_events(request):
+def get_years_with_events_view(request):
     queryset = Event.objects.all().order_by('-date')
     years = []
     for item in queryset:
