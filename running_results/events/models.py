@@ -1,8 +1,6 @@
 from django.db import models
-
-# Create your models here.
 from django.urls import reverse
-# Create your models here.
+
 
 class Event(models.Model):
     date     = models.DateField()
@@ -12,3 +10,7 @@ class Event(models.Model):
  
     def get_absolute_url(self):
         return reverse("events:events-detail", kwargs={"id": self.id}) #f"/user/{self.id}/" # app_name::name in urls.py
+
+    # order first the lastest date and than location
+    class Meta:
+        ordering = ("-date", "location") 
