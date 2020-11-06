@@ -1,7 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
-
 from .models import Event
 
-admin.site.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('date', 'location', 'website', 'note')
+
+admin.site.register(Event, EventAdmin)
+
+admin.site.site_header = "Running Results"
+

@@ -9,9 +9,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:logout' %}">Logout</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
                 {% if user.is_authenticated %}
-                <a class="nav-link" href="{% url 'admin:index' %}">Logout</a>
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                 {% else %}
                 <a class="nav-link" href="{% url 'admin:index' %}">Login</a>
                 {% endif %}
