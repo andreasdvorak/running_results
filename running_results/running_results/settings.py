@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'fontawesome',
 
     # own
+    'distances',
     'events',
     'member',
     'pages',

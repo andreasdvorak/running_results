@@ -1,28 +1,28 @@
-00:01:40;00:05:00;800 Meter;0;Strecke
-00:01:40;00:05:00;800 Meter Halle;0;Strecke
-00:02:15;00:08:00;1000 Meter;0;Strecke
-00:02:15;00:08:00;1 Kilometer;0;Strecke
-00:02:15;00:08:00;1000 Meter Halle;0;Strecke
-00:03:20;00:10:00;1500 Meter;0;Strecke
-00:03:20;00:10:00;1500 Meter Halle;0;Strecke
-00:04:30;00:16:00;2 Kilometer;0;Strecke
-00:07:20;00:20:00;3000 Meter;0;Strecke
-00:07:20;00:20:00;3000 Meter Hindernis;0;Strecke
-00:07:20;00:20:00;3000 Meter Halle;0;Strecke
-00:12:00;00:35:00;5000 Meter;0;Strecke
-00:12:00;00:35:00;5 Kilometer;0;Strecke
-00:12:00;00:35:00;5000 Meter Halle;0;Strecke
-00:19:00;00:50:00;7,5 Kilometer;0;Strecke
-00:26:00;01:30:00;10000 Meter;0;Strecke
-00:26:00;01:30:00;10 Kilometer;0;Strecke
-00:40:00;01:45:00;15 Kilometer;0;Strecke
-00:55:00;02:20:00;20 Kilometer;0;Strecke
-00:58:00;02:30:00;21,097 Kilometer;0;Strecke
-01:10:00;03:00:00;25 Kilometer;0;Strecke
-02:05:00;06:30:00;42,195 Kilometer;0;Strecke
-02:30:00;09:00:00;50 Kilometer;0;Strecke
-06:00:00;15:00:00;100 Kilometer;0;Strecke
-8000;21000;1 Stunde;0;Zeit
-30000;80000;6 Stunden;0;Zeit
-30000;150000;12 Stunden;0;Zeit
-50000;250000;24 Stunden;0;Zeit
+00:01:40;00:05:00;800 Meter;distance
+00:01:40;00:05:00;800 Meter Halle;distance
+00:02:15;00:08:00;1000 Meter;distance
+00:02:15;00:08:00;1 Kilometer;distance
+00:02:15;00:08:00;1000 Meter Halle;distance
+00:03:20;00:10:00;1500 Meter;distance
+00:03:20;00:10:00;1500 Meter Halle;distance
+00:04:30;00:16:00;2 Kilometer;distance
+00:07:20;00:20:00;3000 Meter;distance
+00:07:20;00:20:00;3000 Meter Hindernis;distance
+00:07:20;00:20:00;3000 Meter Halle;distance
+00:12:00;00:35:00;5000 Meter;distance
+00:12:00;00:35:00;5 Kilometer;distance
+00:12:00;00:35:00;5000 Meter Halle;distance
+00:19:00;00:50:00;7,5 Kilometer;0;distance
+00:26:00;01:30:00;10000 Meter;distance
+00:26:00;01:30:00;10 Kilometer;distance
+00:40:00;01:45:00;15 Kilometer;distance
+00:55:00;02:20:00;20 Kilometer;distance
+00:58:00;02:30:00;21,097 Kilometer;distance
+01:10:00;03:00:00;25 Kilometer;distance
+02:05:00;06:30:00;42,195 Kilometer;distance
+02:30:00;09:00:00;50 Kilometer;distance
+06:00:00;15:00:00;100 Kilometer;distance
+8000;21000;1 Stunde;time
+30000;80000;6 Stunden;time
+30000;150000;12 Stunden;time
+50000;250000;24 Stunden;time
