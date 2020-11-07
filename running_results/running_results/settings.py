@@ -128,3 +128,38 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters':{
+        'verbose': {
+            'format': '{asctime} {levelname} {pathname}s {filename}s {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'Simple_Format':{
+            'format': '{levelname} {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+         'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'Simple_Format'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './logs/debug.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
