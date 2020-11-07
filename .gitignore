@@ -6,3 +6,4 @@ env
 /running_results/db.sqlite3
 */*/__pycache__/*
 .idea
+/running_results/logs
