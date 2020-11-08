@@ -3,7 +3,6 @@ import io
 import logging
 from django import forms
 from django.contrib import admin
-from django.db.models import Max
 from django.shortcuts import redirect, render
 from django.urls import path
 from .models import Distances
@@ -17,24 +16,8 @@ class CsvImportForm(forms.Form):
 
 class DistancesAdmin(admin.ModelAdmin):
     list_display = ('sort', 'name', 'min', 'max', 'category')
+    delete_display = ('sort', 'name', 'min', 'max', 'category')
 
-    def convert_to_seconds(self, time_str):
-        try:
-            h, m ,s = time_str.split(':')
-            totalSeconds = int(h) * 3600 + int(m) * 60 + int(s)
-            return totalSeconds
-        except ValueError:
-            logger.error("Wrong time:" + time_str)
-
-    # get highest sort number
-    def get_highest_sort(self):
-        sort_max = Distances.objects.all().aggregate(Max('sort'))
-        for key, value in sort_max.items():
-            if value:
-                max_sort = value
-            else:
-                max_sort = 0
-        return max_sort
 
     # begin csv import
     change_list_template = "distances/distances_changelist.html"
@@ -45,6 +28,7 @@ class DistancesAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
+
     def import_csv(self, request):
         if request.method == "POST":
             # convert from binary to text
@@ -54,26 +38,25 @@ class DistancesAdmin(admin.ModelAdmin):
                     logger.info('row in csv file:' + str(row))
                     if row[3] == 'distance':
                         category = 'd'
-                        min = self.convert_to_seconds(row[0])
-                        max = self.convert_to_seconds(row[1])
+                        min = Helper.convert_to_seconds(row[0])
+                        max = Helper.convert_to_seconds(row[1])
                     else:
                         category = 't'
                         min = row[0]
                         max = row[1]
                     name = row[2]
                     
-                    # get highest sort number
-                    sort_max = self.get_highest_sort()
+                    sort_max = Helper.get_highest_sort()
                     logger.info('sort_max:' + str(sort_max))
                     sort = sort_max +1
                     logger.info('values to import: ' + str(sort) + ', ' + str(min) + ', ' + str(max) + ', ' + name + ', ' + category)
-                    #Distances.objects.create(
-                    #    sort = sort,
-                    #    min = min,
-                    #    max = max,
-                    #    name = name,
-                    #    category = category
-                    #)
+                    Distances.objects.create(
+                        sort = sort,
+                        min = min,
+                        max = max,
+                        name = name,
+                        category = category
+                    )
                 
             self.message_user(request, "Your csv file has been imported")
             return redirect("..")
@@ -83,5 +66,6 @@ class DistancesAdmin(admin.ModelAdmin):
             request, "distances/csv_form.html", payload
         )
         # end csv import
+
 
 admin.site.register(Distances, DistancesAdmin)
