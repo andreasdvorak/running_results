@@ -134,7 +134,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters':{
         'verbose': {
-            'format': '{asctime} {levelname} {pathname}s {filename}s {module} {process:d} {thread:d} {message}',
+            'format': '{asctime} {levelname} {module} {funcName} {process:d} {thread:d} {message}',
             'style': '{',
         },
         'Simple_Format':{
@@ -156,7 +156,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django': {
+        'consolefile': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,
