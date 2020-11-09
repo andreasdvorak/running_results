@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<h1>Veranstaltungen {{ object.name }}</h1>
+<h1>Event details</h1>
 {% if object %}
-<p>Datum {{ object.date }}</p>
-<p>Ort {{ object.location }}</p>
-<p>Webseite {{ object.website }}</p>
-<p>Bemerkung {{ object.note }}</p>
+<p>Date {{ object.date }}</p>
+<p>Location {{ object.location }}</p>
+<p>Website {{ object.website }}</p>
+<p>Note {{ object.note }}</p>
 
 {% else %}
-<p>Es sind noch keine Veranstaltungen erfasst.</p>
+<p>There are no events</p>
 {% endif %}
 {% endblock %}

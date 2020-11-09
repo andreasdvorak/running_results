@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Distance details</h1>
+
+{% if object %}
+<p>Distance {{ object.name }}</p>
+<p>Min value {{ object.min }}</p>
+<p>Max value {{ object.max }}</p>
+{% else %}
+<p>There are no distances</p>
+{% endif %}
+{% endblock %}
