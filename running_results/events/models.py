@@ -8,8 +8,10 @@ class Event(models.Model):
     website  = models.URLField(null=True, blank=True,max_length=200)
     note     = models.TextField(null=True, blank=True)
  
+
     def get_absolute_url(self):
         return reverse("events:events-detail", kwargs={"id": self.id}) #f"/user/{self.id}/" # app_name::name in urls.py
+
 
     # order first the lastest date and than location
     class Meta:

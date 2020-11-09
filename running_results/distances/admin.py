@@ -5,7 +5,7 @@ from django import forms
 from django.contrib import admin
 from django.shortcuts import redirect, render
 from django.urls import path
-from .models import Distances
+from .models import Distance
 from .helper import Helper
 
 # Get an instance of a logger
@@ -14,7 +14,7 @@ logger = logging.getLogger('consolefile')
 class CsvImportForm(forms.Form):
     csv_file = forms.FileField()
 
-class DistancesAdmin(admin.ModelAdmin):
+class DistanceAdmin(admin.ModelAdmin):
     list_display = ('sort', 'name', 'min', 'max', 'category')
     delete_display = ('sort', 'name', 'min', 'max', 'category')
 
@@ -50,7 +50,7 @@ class DistancesAdmin(admin.ModelAdmin):
                     logger.info('sort_max:' + str(sort_max))
                     sort = sort_max +1
                     logger.info('values to import: ' + str(sort) + ', ' + str(min) + ', ' + str(max) + ', ' + name + ', ' + category)
-                    Distances.objects.create(
+                    Distance.objects.create(
                         sort = sort,
                         min = min,
                         max = max,
@@ -68,4 +68,4 @@ class DistancesAdmin(admin.ModelAdmin):
         # end csv import
 
 
-admin.site.register(Distances, DistancesAdmin)
+admin.site.register(Distance, DistanceAdmin)
