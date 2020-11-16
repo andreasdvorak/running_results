@@ -43,11 +43,8 @@ INSTALLED_APPS = [
     'fontawesome',
 
     # own
-    'agegroups',
-    'distances',
-    'events',
-    'member',
     'pages',
+    'results',
 ]
 
 MIDDLEWARE = [
