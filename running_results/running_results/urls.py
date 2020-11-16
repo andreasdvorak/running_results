@@ -23,6 +23,6 @@ urlpatterns = [
     path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
     path('contact/', contact_view, name='contact'),
-    path('distances/', include('distances.urls')),
-    path('events/', include('events.urls')),
+    path('distances/', include('results.urls')),
+    path('events/', include('results.urls')),
 ]
