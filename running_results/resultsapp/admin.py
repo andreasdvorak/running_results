@@ -23,7 +23,7 @@ class AgegroupAdmin(admin.ModelAdmin):
     list_display = ('age', 'agegroupm', 'agegroupw')
 
     # begin csv import
-    change_list_template = "results/agegroups_changelist.html"
+    change_list_template = "resultsapp/agegroups_changelist.html"
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -53,7 +53,7 @@ class AgegroupAdmin(admin.ModelAdmin):
         form = CsvImportForm()
         payload = {"form": form}
         return render(
-            request, "results/csv_form.html", payload
+            request, "resultsapp/csv_form.html", payload
         )
         # end csv import
 
@@ -64,7 +64,7 @@ class DistanceAdmin(admin.ModelAdmin):
 
 
     # begin csv import
-    change_list_template = "results/distances_changelist.html"
+    change_list_template = "resultsapp/distances_changelist.html"
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -107,13 +107,14 @@ class DistanceAdmin(admin.ModelAdmin):
         form = CsvImportForm()
         payload = {"form": form}
         return render(
-            request, "results/csv_form.html", payload
+            request, "resultsapp/csv_form.html", payload
         )
         # end csv import
 
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('date', 'location', 'custom_url', 'note')
+    list_filter = ('date', 'location')
 
     def custom_url(self, obj):
         return format_html(
@@ -126,10 +127,13 @@ class EventAdmin(admin.ModelAdmin):
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ('lastname', 'firstname', 'sex', 'year_of_birth')
+    list_filter = ('lastname','firstname', 'sex', 'year_of_birth')
+    search_fields = ("lastname__startswith", "firstname__startswith")
 
 
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('result_value','get_distance_name')
+    list_display = ('result_value','get_distance_name','get_event_date')
+    #list_filter = ('get_distance_names__distance_id','result_value')
 
     def get_distance_name(self, obj):
         obj_distance = get_object_or_404(Distance, id=obj.id)
@@ -138,6 +142,17 @@ class ResultAdmin(admin.ModelAdmin):
         return name
     get_distance_name.short_description = 'Distance Name'
 
+    def get_distance_names(self):
+        obj_distances = Distance.objects.all()
+        return obj_distances
+    get_distance_names.short_description = 'Distances'
+
+    def get_event_date(self, obj):
+        obj_event = get_object_or_404(Event, id=obj.id)
+        date = obj_event.date
+        logger.debug('date:' + str(date))
+        return date
+    get_event_date.short_description = 'Event Date'
 
 admin.site.register(Agegroup, AgegroupAdmin)
 admin.site.register(Distance, DistanceAdmin)

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # own
     'pages',
-    'results',
+    'resultsapp',
 ]
 
 MIDDLEWARE = [

@@ -10,7 +10,7 @@ from .views import (
     get_years_with_events_view,
 )
 
-app_name = 'results'
+app_name = 'resultsapp'
 urlpatterns = [
     path('distances', distances_list_view, name='distances-list'),
     path('distances/<int:id>/', distance_detail_view, name='distance-details'),

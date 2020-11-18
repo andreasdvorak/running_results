@@ -11,7 +11,7 @@ def distance_detail_view(request, id):
     context = {
         "object": obj
     }
-    return render(request, "results/distance_detail.html", context)
+    return render(request, "resultsapp/distance_detail.html", context)
 
 
 def distances_list_view(request):
@@ -19,7 +19,7 @@ def distances_list_view(request):
     context = {
         "object_list": queryset,
     }
-    return render(request, "results/distances_list.html", context)
+    return render(request, "resultsapp/distances_list.html", context)
 
 
 def events_create_view(request):
@@ -30,7 +30,7 @@ def events_create_view(request):
     context = {
         'form': form
     }
-    return render(request, "results/events_create.html", context)
+    return render(request, "resultsapp/events_create.html", context)
 
 
 def events_update_view(request, id=id):
@@ -41,7 +41,7 @@ def events_update_view(request, id=id):
     context = {
         'form': form
     }
-    return render(request, "results/events_create.html", context)
+    return render(request, "resultsapp/events_create.html", context)
 
 
 def events_for_year_list_view(request, year):
@@ -56,7 +56,7 @@ def events_for_year_list_view(request, year):
         "object_list": queryset,
         "year_list": years,
     }
-    return render(request, "results/events_for_year_list.html", context)
+    return render(request, "resultsapp/events_for_year_list.html", context)
 
 
 def events_detail_view(request, id):
@@ -64,7 +64,7 @@ def events_detail_view(request, id):
     context = {
         "object": obj
     }
-    return render(request, "results/events_detail.html", context)
+    return render(request, "resultsapp/events_detail.html", context)
 
 
 def events_delete_view(request, id):
@@ -75,7 +75,7 @@ def events_delete_view(request, id):
     context = {
         "object": obj
     }
-    return render(request, "results/events_delete.html", context)
+    return render(request, "resultsapp/events_delete.html", context)
 
 
 def get_years_with_events_view(request):
@@ -88,4 +88,4 @@ def get_years_with_events_view(request):
     context = {
         "year_list": years
     }
-    return render(request, "results/events_year_filter.html", context)
+    return render(request, "resultsapp/events_year_filter.html", context)
