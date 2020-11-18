@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import include, path
 
 from pages.views import home_view, contact_view, about_view
+from resultsapp.views import distances_list_view
 
 urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
     path('contact/', contact_view, name='contact'),
-    path('distances/', include('results.urls')),
-    path('events/', include('results.urls')),
+    path('distances/', distances_list_view, name='distances-list'),
+    path('events/', include('resultsapp.urls')),
 ]

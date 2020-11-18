@@ -23,7 +23,7 @@ class Distance(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("results:distance-details", kwargs={"id": self.id})
+        return reverse("resultsapp:distance-details", kwargs={"id": self.id})
 
 
     # order first for sort and than name
@@ -39,7 +39,7 @@ class Event(models.Model):
  
 
     def get_absolute_url(self):
-        return reverse("results:events-detail", kwargs={"id": self.id}) #f"/user/{self.id}/" # app_name::name in urls.py
+        return reverse("resultsapp:events-detail", kwargs={"id": self.id}) #f"/user/{self.id}/" # app_name::name in urls.py
 
 
     # order first the lastest date and than location
@@ -55,11 +55,14 @@ def current_year():
 
 class Member(models.Model):
     sex_choices = [('w', 'female'), ('m', 'male')]
-    lastname      = models.CharField(max_length=40)
     firstname     = models.CharField(max_length=40)
+    lastname      = models.CharField(max_length=40)
     sex           = models.CharField(max_length=1, choices=sex_choices)
     year_of_birth = models.IntegerField(default=current_year)
- 
+
+    def __str__(self):
+        return 'lastname: ' + self.lastname
+
     # order first the lastest date and than location
     class Meta:
         ordering = ("-lastname", "firstname", "year_of_birth") 
@@ -74,7 +77,7 @@ class Result(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("results:result-detail", kwargs={"id": self.id})
+        return reverse("app:result-detail", kwargs={"id": self.id})
 
 
     class Meta:
