@@ -9,6 +9,11 @@ class Agegroup(models.Model):
     agegroupw = models.CharField(max_length=3)
     
 
+    # show agegroupm of Distance object (x)
+    def __str__(self):
+        return f"{self.age}"
+
+
     class Meta:
         ordering = ("age", "agegroupm", "agegroupw") 
 
@@ -20,6 +25,11 @@ class Distance(models.Model):
     max = models.IntegerField()
     name = models.CharField(max_length=40, unique=True)
     category = models.CharField(choices=category_choices, max_length=1)
+
+
+    # show name instead of Distance object (x)
+    def __str__(self):
+        return f"{self.name}"
 
 
     def get_absolute_url(self):
@@ -37,6 +47,11 @@ class Event(models.Model):
     website  = models.URLField(null=True, blank=True,max_length=200)
     note     = models.TextField(null=True, blank=True)
  
+
+    # show date and location instead of Distance object (x)
+    def __str__(self):
+        return f"{self.date} {self.location}"
+
 
     def get_absolute_url(self):
         return reverse("resultsapp:events-detail", kwargs={"id": self.id}) #f"/user/{self.id}/" # app_name::name in urls.py
@@ -60,8 +75,10 @@ class Member(models.Model):
     sex           = models.CharField(max_length=1, choices=sex_choices)
     year_of_birth = models.IntegerField(default=current_year)
 
+
+    # show firstname, lastname, sex and year_of_birth instead of Distance object (x)
     def __str__(self):
-        return 'lastname: ' + self.lastname
+        return f"{self.firstname} {self.lastname} {self.sex} {self.year_of_birth}"
 
     # order first the lastest date and than location
     class Meta:
@@ -72,7 +89,7 @@ class Result(models.Model):
     distance_id = models.ForeignKey(Distance, on_delete=models.CASCADE)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
-    agegroup_id = models.ForeignKey(Agegroup, on_delete=models.CASCADE)
+    agegroup = models.CharField(max_length=3)
     result_value = models.IntegerField()
 
 

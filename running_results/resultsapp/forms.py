@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event
+from .models import Event, Result
 
 class EventsForm(forms.ModelForm):
     date     = forms.DateField(label='Datum',input_formats=['%d.%m.%Y'],widget=forms.TextInput(attrs={"placeholder": "30.10.2020"}))
@@ -15,3 +15,11 @@ class EventsForm(forms.ModelForm):
             'website',
             'notes',
         ]   
+
+
+class ResultForm(forms.ModelForm):
+
+    # do not show agegroup
+    class Meta:
+        model = Result
+        exclude = ['agegroup']

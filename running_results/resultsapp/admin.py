@@ -4,6 +4,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils.html import format_html
+from .forms import ResultForm
 from .helper import Helper
 from .models import Agegroup, Event, Distance, Member, Result
 import csv
@@ -132,27 +133,34 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('result_value','get_distance_name','get_event_date')
-    #list_filter = ('get_distance_names__distance_id','result_value')
+    list_display = ('result_value', 'get_distance_name', 'agegroup', 'get_member', 'get_event')
+    form = ResultForm
 
     def get_distance_name(self, obj):
         obj_distance = get_object_or_404(Distance, id=obj.id)
         name = obj_distance.name
         logger.info('name:' + name)
         return name
-    get_distance_name.short_description = 'Distance Name'
+    get_distance_name.short_description = 'Distance'
 
-    def get_distance_names(self):
-        obj_distances = Distance.objects.all()
-        return obj_distances
-    get_distance_names.short_description = 'Distances'
-
-    def get_event_date(self, obj):
+    def get_event(self, obj):
         obj_event = get_object_or_404(Event, id=obj.id)
         date = obj_event.date
-        logger.debug('date:' + str(date))
-        return date
-    get_event_date.short_description = 'Event Date'
+        location = obj_event.location
+        event = str(date) + " " + location
+        logger.debug('event:' + str(event))
+        return event
+    get_event.short_description = 'Event'
+
+    def get_member(self, obj):
+        obj_member = get_object_or_404(Member, id=obj.id)
+        lastname = obj_member.lastname
+        firstname = obj_member.firstname
+        year_of_birth = obj_member.year_of_birth
+        member = lastname + ", " + firstname + " (" + str(year_of_birth) + ")"
+        logger.debug('member data:' + str(member))
+        return member
+    get_member.short_description = 'Member'
 
 admin.site.register(Agegroup, AgegroupAdmin)
 admin.site.register(Distance, DistanceAdmin)
