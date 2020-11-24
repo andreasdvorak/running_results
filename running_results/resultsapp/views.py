@@ -64,7 +64,7 @@ def events_detail_view(request, id):
     context = {
         "object": obj
     }
-    return render(request, "resultsapp/events_detail.html", context)
+    return render(request, "resultsapp/event_details.html", context)
 
 
 def events_delete_view(request, id):
