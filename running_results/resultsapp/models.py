@@ -76,9 +76,9 @@ class Member(models.Model):
     year_of_birth = models.IntegerField(default=current_year)
 
 
-    # show firstname, lastname, sex and year_of_birth instead of Distance object (x)
+    # values to show instead of istance object (x)
     def __str__(self):
-        return f"{self.firstname} {self.lastname} {self.sex} {self.year_of_birth}"
+        return f"{self.lastname}, {self.firstname} {self.sex} {self.year_of_birth}"
 
     # order first the lastest date and than location
     class Meta:

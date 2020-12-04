@@ -117,6 +117,46 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('date', 'location', 'custom_url', 'note')
     list_filter = ('date', 'location')
 
+
+    # begin csv import
+    change_list_template = "resultsapp/events_changelist.html"
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import-csv/', self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        if request.method == "POST":
+            # convert from binary to text
+            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+                reader = csv.reader(text_file, delimiter=';')                
+                for row in reader:
+                    logger.info('row in csv file:' + str(row))
+                    logger.info('columns:' + str(len(row)))
+                    date = row[0]
+                    location = row[1]
+                    website = row[2]
+                    note = row[3]
+                    logger.info('values to import: ' + str(date) + ', ' + str(location) + ', ' + str(website) + ', ' + str(note))
+                    Event.objects.create(
+                        date = date,
+                        location = location,
+                        website = website,
+                        note = note
+                    )
+
+            self.message_user(request, "Your csv file has been imported")
+            return redirect("..")
+        form = CsvImportForm()
+        payload = {"form": form}
+        return render(
+            request, "resultsapp/csv_form.html", payload
+        )
+        # end csv import
+
+
     def custom_url(self, obj):
         return format_html(
         '<a href="{0}" >{0}</a>&nbsp;',
@@ -132,9 +172,50 @@ class MemberAdmin(admin.ModelAdmin):
     search_fields = ("lastname__startswith", "firstname__startswith")
 
 
+    # begin csv import
+    change_list_template = "resultsapp/member_changelist.html"
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import-csv/', self.import_csv),
+        ]
+        return my_urls + urls
+
+
+    def import_csv(self, request):
+        if request.method == "POST":
+            # convert from binary to text
+            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+                reader = csv.reader(text_file, delimiter=';')                
+                for row in reader:
+                    logger.info('row in csv file:' + str(row))
+                    firstname = row[0]
+                    lastname = row[1]
+                    sex = row[2]
+                    year_of_birth = row[3]
+                    logger.info('values to import: ' + str(firstname) + ', ' + str(lastname) + ', ' + str(sex) + ', ' + str(year_of_birth))
+                    Member.objects.create(
+                        firstname = firstname,
+                        lastname = lastname,
+                        sex = sex,
+                        year_of_birth = year_of_birth
+                    )
+
+            self.message_user(request, "Your csv file has been imported")
+            return redirect("..")
+        form = CsvImportForm()
+        payload = {"form": form}
+        return render(
+            request, "resultsapp/csv_form.html", payload
+        )
+        # end csv import
+
+
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('result_value', 'get_distance_name', 'agegroup', 'get_member', 'get_event')
-    form = ResultForm
+    # what files are shown in form
+    fields = ['result_value', 'distance_id', 'event_id', 'member_id']
+    # show result data
+    list_display = ('result_value', 'distance_id', 'agegroup', 'get_member', 'get_event')
 
     def get_distance_name(self, obj):
         obj_distance = get_object_or_404(Distance, id=obj.id)
@@ -154,13 +235,28 @@ class ResultAdmin(admin.ModelAdmin):
 
     def get_member(self, obj):
         obj_member = get_object_or_404(Member, id=obj.id)
+        logger.info('get_member member id:' + str(obj.id))
         lastname = obj_member.lastname
         firstname = obj_member.firstname
         year_of_birth = obj_member.year_of_birth
         member = lastname + ", " + firstname + " (" + str(year_of_birth) + ")"
-        logger.debug('member data:' + str(member))
+        logger.info('member data:' + str(member))
         return member
     get_member.short_description = 'Member'
+
+    def save_model(self, request, obj, form, change):
+        #logger.info("member_id:" + str(obj.result.member.id))
+        logger.info("member_id:" + str(form.cleaned_data['member_id']))
+        #year_of_birth = form_member_id.year_of_birth
+        #logger.info("year_of_birth:" + str(year_of_birth))
+        member_id = str(form.cleaned_data['member_id']).split(" ")
+        year_of_birth = member_id[3]
+        logger.info("year_of_birth:" + str(year_of_birth))
+        obj.agegroup = "M11"
+        #obj.member_id = "1"
+        #finally save the object in db
+        super().save_model(request, obj, form, change)
+    
 
 admin.site.register(Agegroup, AgegroupAdmin)
 admin.site.register(Distance, DistanceAdmin)
