@@ -98,4 +98,4 @@ class Result(models.Model):
 
 
     class Meta:
-        ordering = ("result_value", "distance_id")
+        ordering = ("agegroup", "distance_id", "result_value")
