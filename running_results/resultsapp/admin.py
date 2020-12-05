@@ -215,45 +215,36 @@ class ResultAdmin(admin.ModelAdmin):
     # what files are shown in form
     fields = ['result_value', 'distance_id', 'event_id', 'member_id']
     # show result data
-    list_display = ('result_value', 'distance_id', 'agegroup', 'get_member', 'get_event')
+    list_display = ('result_value', 'distance_id', 'agegroup', 'member_id', 'event_id')
+    # show filer
+    list_filter = ('agegroup','distance_id', 'member_id', 'event_id')
 
-    def get_distance_name(self, obj):
-        obj_distance = get_object_or_404(Distance, id=obj.id)
-        name = obj_distance.name
-        logger.info('name:' + name)
-        return name
-    get_distance_name.short_description = 'Distance'
-
-    def get_event(self, obj):
-        obj_event = get_object_or_404(Event, id=obj.id)
-        date = obj_event.date
-        location = obj_event.location
-        event = str(date) + " " + location
-        logger.debug('event:' + str(event))
-        return event
-    get_event.short_description = 'Event'
-
-    def get_member(self, obj):
-        obj_member = get_object_or_404(Member, id=obj.id)
-        logger.info('get_member member id:' + str(obj.id))
-        lastname = obj_member.lastname
-        firstname = obj_member.firstname
-        year_of_birth = obj_member.year_of_birth
-        member = lastname + ", " + firstname + " (" + str(year_of_birth) + ")"
-        logger.info('member data:' + str(member))
-        return member
-    get_member.short_description = 'Member'
 
     def save_model(self, request, obj, form, change):
-        #logger.info("member_id:" + str(obj.result.member.id))
-        logger.info("member_id:" + str(form.cleaned_data['member_id']))
-        #year_of_birth = form_member_id.year_of_birth
-        #logger.info("year_of_birth:" + str(year_of_birth))
-        member_id = str(form.cleaned_data['member_id']).split(" ")
-        year_of_birth = member_id[3]
-        logger.info("year_of_birth:" + str(year_of_birth))
-        obj.agegroup = "M11"
-        #obj.member_id = "1"
+        # get year_of_birth
+        logger.debug("save_model member_id: " + str(form.cleaned_data['member_id']))
+        member_data = str(form.cleaned_data['member_id']).split(" ")
+        sex = member_data[2]
+        logger.debug("save_model sex: " + str(sex))
+        year_of_birth = member_data[3]
+        logger.debug("save_model year_of_birth: " + str(year_of_birth))
+        # get date
+        logger.debug("save_model event_id: " + str(form.cleaned_data['event_id']))
+        event_data = str(form.cleaned_data['event_id']).split(" ")
+        date = event_data[0]
+        year_of_event = date.split("-")[0]
+        logger.debug("save_model year_of_event: " + str(year_of_event))
+        age = int(year_of_event) - int(year_of_birth)
+        logger.debug("save_model age: " + str(age))
+        # get the agegroup
+        obj_agegroup = get_object_or_404(Agegroup, age=age)
+        agegroup_id = obj_agegroup.age
+        logger.debug("save_model agegroup_id: " + str(agegroup_id))
+        if sex == 'm':
+            agegroup = obj_agegroup.agegroupm
+        else:
+            agegroup = obj_agegroup.agegroupw
+        obj.agegroup = agegroup
         #finally save the object in db
         super().save_model(request, obj, form, change)
     
