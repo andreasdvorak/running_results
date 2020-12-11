@@ -86,11 +86,11 @@ class Member(models.Model):
 
 
 class Result(models.Model):
-    distance_id = models.ForeignKey(Distance, on_delete=models.CASCADE)
-    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
+    distance_id = models.ForeignKey(Distance, on_delete=models.CASCADE, verbose_name = "distance")
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name = "event")
+    member_id = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name = "member")
     agegroup = models.CharField(max_length=3)
-    result_value = models.IntegerField()
+    result_value = models.TimeField(auto_now=False, auto_now_add=False, default="00:00:00", help_text = "hh:mm:ss")
 
 
     def get_absolute_url(self):
