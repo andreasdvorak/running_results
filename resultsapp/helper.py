@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger('consolefile')
 
+
 class Helper():
     @staticmethod
     def convert_from_seconds(seconds):
@@ -15,12 +16,11 @@ class Helper():
     @staticmethod
     def convert_to_seconds(time_str):
         try:
-            h, m ,s = time_str.split(':')
-            totalSeconds = int(h) * 3600 + int(m) * 60 + int(s)
-            return totalSeconds
+            h, m, s = time_str.split(':')
+            totalseconds = int(h) * 3600 + int(m) * 60 + int(s)
+            return totalseconds
         except ValueError:
             logger.error("Wrong time:" + time_str)
-
 
     @staticmethod
     # get highest sort number

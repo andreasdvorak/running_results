@@ -9,7 +9,7 @@ first code and conception phase
 ## Features
 
 ## Requirements
-requirments.txt
+requirements.txt
 
 and ...
 
