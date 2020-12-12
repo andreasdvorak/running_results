@@ -4,6 +4,14 @@ from .helper import Helper
 from .models import Distance, Event
 
 
+def about_view(request, *args, **kwargs):
+    return render(request, "about.html", {})
+
+
+def contact_view(request, *args, **kwargs):
+    return render(request, "contact.html", {})
+
+
 def distance_detail_view(request, id):
     obj = get_object_or_404(Distance, id=id)
     obj.min = Helper.convert_from_seconds(obj.min)
@@ -50,7 +58,7 @@ def events_for_year_list_view(request, year):
     years = []
     for item in queryset_years:
         year = item.date.year
-        if not year in years:
+        if year not in years:
             years.append(year)
     context = {
         "object_list": queryset,
@@ -83,9 +91,15 @@ def get_years_with_events_view(request):
     years = []
     for item in queryset:
         year = item.date.year
-        if not year in years:
+        if year not in years:
             years.append(year)
     context = {
         "year_list": years
     }
     return render(request, "resultsapp/events_year_filter.html", context)
+
+
+def home_view(request, *args, **kwargs):
+    print(args, kwargs)
+    print(request.user)
+    return render(request, "home.html", {})

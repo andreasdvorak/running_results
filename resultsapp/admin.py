@@ -1,10 +1,8 @@
 from django import forms
 from django.contrib import admin
-from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils.html import format_html
-from .forms import ResultForm
 from .helper import Helper
 from .models import Agegroup, Event, Distance, Member, Result
 import csv
@@ -25,6 +23,7 @@ class AgegroupAdmin(admin.ModelAdmin):
 
     # begin csv import
     change_list_template = "resultsapp/agegroups_changelist.html"
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -63,16 +62,15 @@ class DistanceAdmin(admin.ModelAdmin):
     list_display = ('sort', 'name', 'min', 'max', 'category')
     delete_display = ('sort', 'name', 'min', 'max', 'category')
 
-
     # begin csv import
     change_list_template = "resultsapp/distances_changelist.html"
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path('import-csv/', self.import_csv),
         ]
         return my_urls + urls
-
 
     def import_csv(self, request):
         if request.method == "POST":
@@ -93,7 +91,7 @@ class DistanceAdmin(admin.ModelAdmin):
                     
                     sort_max = Helper.get_highest_distance_sort()
                     logger.info('sort_max:' + str(sort_max))
-                    sort = sort_max +1
+                    sort = sort_max + 1
                     logger.info('values to import: ' + str(sort) + ', ' + str(min) + ', ' + str(max) + ', ' + name + ', ' + category)
                     Distance.objects.create(
                         sort = sort,
@@ -117,9 +115,9 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('date', 'location', 'custom_url', 'note')
     list_filter = ('date', 'location')
 
-
     # begin csv import
     change_list_template = "resultsapp/events_changelist.html"
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
@@ -156,31 +154,26 @@ class EventAdmin(admin.ModelAdmin):
         )
         # end csv import
 
-
     def custom_url(self, obj):
-        return format_html(
-        '<a href="{0}" >{0}</a>&nbsp;',
-            obj.website
-        )
+        return format_html('<a href="{0}" >{0}</a>&nbsp;', obj.website)
     custom_url.short_description = 'Website'
     custom_url.admin_order_field = 'website'
 
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ('lastname', 'firstname', 'sex', 'year_of_birth')
-    list_filter = ('lastname','firstname', 'sex', 'year_of_birth')
+    list_filter = ('lastname', 'firstname', 'sex', 'year_of_birth')
     search_fields = ("lastname__startswith", "firstname__startswith")
-
 
     # begin csv import
     change_list_template = "resultsapp/member_changelist.html"
+
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path('import-csv/', self.import_csv),
         ]
         return my_urls + urls
-
 
     def import_csv(self, request):
         if request.method == "POST":
@@ -217,8 +210,7 @@ class ResultAdmin(admin.ModelAdmin):
     # show result data
     list_display = ('result_value', 'distance_id', 'agegroup', 'member_id', 'event_id')
     # show filer
-    list_filter = ('agegroup','distance_id', 'member_id', 'event_id')
-
+    list_filter = ('agegroup', 'distance_id', 'member_id', 'event_id')
 
     def save_model(self, request, obj, form, change):
         # get year_of_birth
@@ -245,7 +237,7 @@ class ResultAdmin(admin.ModelAdmin):
         else:
             agegroup = obj_agegroup.agegroupw
         obj.agegroup = agegroup
-        #finally save the object in db
+        # finally save the object in db
         super().save_model(request, obj, form, change)
     
 

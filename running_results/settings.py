@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'fontawesome',
 
     # own
-    'pages',
-    'resultsapp',
+    'resultsapp'
 ]
 
 MIDDLEWARE = [
@@ -130,18 +129,18 @@ STATIC_URL = '/static/'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters':{
+    'formatters': {
         'verbose': {
             'format': '{asctime} {levelname} {module} {funcName} {process:d} {thread:d} {message}',
             'style': '{',
         },
-        'Simple_Format':{
+        'Simple_Format': {
             'format': '{levelname} {message}',
             'style': '{',
         }
     },
     'handlers': {
-         'console': {
+        'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'Simple_Format'
