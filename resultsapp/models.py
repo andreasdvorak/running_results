@@ -50,7 +50,7 @@ class Event(models.Model):
         # f"/user/{self.id}/" # app_name::name in urls.py
         return reverse("resultsapp:events-detail", kwargs={"id": self.id})
 
-    # order first the lastest date and than location
+    # order first the latest date and than location
     class Meta:
         ordering = ("-date", "location") 
 
