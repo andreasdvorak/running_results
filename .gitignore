@@ -1,3 +1,4 @@
+.idea
 .vscode
 bootstrap
 env
@@ -5,6 +6,5 @@ fontawesome
 logs/*
 info.txt
 db.sqlite3
-*/*/migrations/*
-*/*/__pycache__/*
-.idea
+*/migrations/*
+*/__pycache__/*

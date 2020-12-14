@@ -25,6 +25,7 @@ class Helper():
     @staticmethod
     # get highest sort number
     def get_highest_distance_sort():
+        max_sort = 0
         sort_max = Distance.objects.all().aggregate(Max('sort'))
         for key, value in sort_max.items():
             if value:

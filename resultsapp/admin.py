@@ -43,9 +43,9 @@ class AgegroupAdmin(admin.ModelAdmin):
                     agegroupw = row[2]
                     logger.info('values to import: ' + str(age) + ', ' + str(agegroupm) + ', ' + str(agegroupw))
                     Agegroup.objects.create(
-                        age = age,
-                        agegroupm = agegroupm,
-                        agegroupw = agegroupw,
+                        age=age,
+                        agegroupm=agegroupm,
+                        agegroupw=agegroupw,
                     )
 
             self.message_user(request, "Your csv file has been imported")
@@ -81,24 +81,24 @@ class DistanceAdmin(admin.ModelAdmin):
                     logger.info('row in csv file:' + str(row))
                     if row[3] == 'distance':
                         category = 'd'
-                        min = Helper.convert_to_seconds(row[0])
-                        max = Helper.convert_to_seconds(row[1])
+                        min_value = Helper.convert_to_seconds(row[0])
+                        max_value = Helper.convert_to_seconds(row[1])
                     else:
                         category = 't'
-                        min = row[0]
-                        max = row[1]
-                    name = row[2]
+                        min_value = row[0]
+                        max_value = row[1]
+                        name = row[2]
                     
                     sort_max = Helper.get_highest_distance_sort()
                     logger.info('sort_max:' + str(sort_max))
                     sort = sort_max + 1
-                    logger.info('values to import: ' + str(sort) + ', ' + str(min) + ', ' + str(max) + ', ' + name + ', ' + category)
+                    logger.info('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value) + ', ' + name + ', ' + category)
                     Distance.objects.create(
-                        sort = sort,
-                        min = min,
-                        max = max,
-                        name = name,
-                        category = category
+                        sort=sort,
+                        min=min_value,
+                        max=max_value,
+                        name=name,
+                        category=category
                     )
                 
             self.message_user(request, "Your csv file has been imported")
@@ -139,10 +139,10 @@ class EventAdmin(admin.ModelAdmin):
                     note = row[3]
                     logger.info('values to import: ' + str(date) + ', ' + str(location) + ', ' + str(website) + ', ' + str(note))
                     Event.objects.create(
-                        date = date,
-                        location = location,
-                        website = website,
-                        note = note
+                        date=date,
+                        location=location,
+                        website=website,
+                        note=note
                     )
 
             self.message_user(request, "Your csv file has been imported")
@@ -188,10 +188,10 @@ class MemberAdmin(admin.ModelAdmin):
                     year_of_birth = row[3]
                     logger.info('values to import: ' + str(firstname) + ', ' + str(lastname) + ', ' + str(sex) + ', ' + str(year_of_birth))
                     Member.objects.create(
-                        firstname = firstname,
-                        lastname = lastname,
-                        sex = sex,
-                        year_of_birth = year_of_birth
+                        firstname=firstname,
+                        lastname=lastname,
+                        sex=sex,
+                        year_of_birth=year_of_birth
                     )
 
             self.message_user(request, "Your csv file has been imported")
