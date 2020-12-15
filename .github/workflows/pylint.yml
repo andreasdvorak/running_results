@@ -21,3 +21,10 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint `ls -R|grep .py$|xargs`
+        
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: max/awesome-lint@v2.0.0
