@@ -7,6 +7,13 @@ Please use the develop branch as the target for pull requests for on-going devel
 first code and conception phase
 
 ## Features
+* Import of data
+* Export of data
+* Administration of user for the gathering of the data
+* Public access to
+** record list
+** Annual record list
+** Annual result lists of every for age groups
 
 ## Requirements
 requirements.txt
