@@ -11,9 +11,10 @@ first code and conception phase
 * Export of data
 * Administration of user for the gathering of the data
 * Public access to
-** record list
-** Annual record list
-** Annual result lists of every for age groups
+* record list
+* Annual record list
+* Annual result lists of every distance and for age groups
+* List of events
 
 ## Requirements
 requirements.txt
