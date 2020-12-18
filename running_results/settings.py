@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # additional apps
     'bootstrap',
     'fontawesome',
@@ -153,9 +153,9 @@ LOGGING = {
         },
     },
     'loggers': {
-        'consolefile': {
+        'console_file': {
             'handlers': ['console', 'file'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
     },

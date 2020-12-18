@@ -4,7 +4,7 @@ from .models import Distance
 import datetime
 import logging
 
-logger = logging.getLogger('consolefile')
+logger = logging.getLogger('console_file')
 
 
 class Helper():

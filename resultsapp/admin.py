@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils.html import format_html
+from .actions import export_member_csv, export_results_csv
 from .helper import Helper
 from .models import Agegroup, Event, Distance, Member, Result
 import csv
@@ -11,7 +12,7 @@ import logging
 
 
 # Get an instance of a logger
-logger = logging.getLogger('consolefile')
+logger = logging.getLogger('console_file')
 
 
 class CsvImportForm(forms.Form):
@@ -35,7 +36,7 @@ class AgegroupAdmin(admin.ModelAdmin):
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
-                reader = csv.reader(text_file, delimiter=';')                
+                reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.info('row in csv file:' + str(row))
                     age = row[0]
@@ -87,12 +88,13 @@ class DistanceAdmin(admin.ModelAdmin):
                         category = 't'
                         min_value = row[0]
                         max_value = row[1]
-                        name = row[2]
+                    name = row[2]
                     
                     sort_max = Helper.get_highest_distance_sort()
                     logger.info('sort_max:' + str(sort_max))
                     sort = sort_max + 1
-                    logger.info('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value) + ', ' + name + ', ' + category)
+                    logger.info('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value)
+                                + ', ' + name + ', ' + category)
                     Distance.objects.create(
                         sort=sort,
                         min=min_value,
@@ -165,6 +167,8 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ('lastname', 'firstname', 'sex', 'year_of_birth')
     search_fields = ("lastname__startswith", "firstname__startswith")
 
+    actions = [export_member_csv]
+
     # begin csv import
     change_list_template = "resultsapp/member_changelist.html"
 
@@ -212,6 +216,8 @@ class ResultAdmin(admin.ModelAdmin):
     # show filer
     list_filter = ('agegroup', 'distance_id', 'member_id', 'event_id')
 
+    actions = [export_results_csv]
+    
     def save_model(self, request, obj, form, change):
         # get year_of_birth
         logger.debug("save_model member_id: " + str(form.cleaned_data['member_id']))

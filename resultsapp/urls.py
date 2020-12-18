@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
     distances_list_view,
     distance_detail_view,
-    events_create_view, 
-    events_detail_view, 
+    events_create_view,
+    events_detail_view,
     events_delete_view,
     events_for_year_list_view,
     events_update_view,
