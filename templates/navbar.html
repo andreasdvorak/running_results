@@ -44,6 +44,15 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Results
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'resultsapp:record-list-m' %}">List record male</a>
+                <a class="dropdown-item" href="{% url 'resultsapp:record-list-w' %}">List record female</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Help
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -5,15 +5,15 @@ import datetime
 
 class Agegroup(models.Model):
     age = models.IntegerField(unique=True)
-    agegroupm = models.CharField(max_length=3)
-    agegroupw = models.CharField(max_length=3)
-    
-    # show agegroupm of Distance object (x)
+    agegroup_m = models.CharField(max_length=3)
+    agegroup_w = models.CharField(max_length=3)
+
+    # show agegroup_m of Distance object (x)
     def __str__(self):
         return f"{self.age}"
 
     class Meta:
-        ordering = ("age", "agegroupm", "agegroupw") 
+        ordering = ("age", "agegroup_m", "agegroup_w")
 
 
 class Distance(models.Model):
@@ -52,7 +52,7 @@ class Event(models.Model):
 
     # order first the latest date and than location
     class Meta:
-        ordering = ("-date", "location") 
+        ordering = ("-date", "location")
 
 
 def year_choices():
@@ -76,7 +76,7 @@ class Member(models.Model):
 
     # order first the latest date and than location
     class Meta:
-        ordering = ("-lastname", "firstname", "year_of_birth") 
+        ordering = ("-lastname", "firstname", "year_of_birth")
 
 
 class Result(models.Model):

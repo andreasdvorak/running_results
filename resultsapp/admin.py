@@ -20,7 +20,7 @@ class CsvImportForm(forms.Form):
 
 
 class AgegroupAdmin(admin.ModelAdmin):
-    list_display = ('age', 'agegroupm', 'agegroupw')
+    list_display = ('age', 'agegroup_m', 'agegroup_w')
 
     # begin csv import
     change_list_template = "resultsapp/agegroups_changelist.html"
@@ -38,15 +38,15 @@ class AgegroupAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.info('row in csv file:' + str(row))
+                    logger.debug('row in csv file:' + str(row))
                     age = row[0]
-                    agegroupm = row[1]
-                    agegroupw = row[2]
-                    logger.info('values to import: ' + str(age) + ', ' + str(agegroupm) + ', ' + str(agegroupw))
+                    agegroup_m = row[1]
+                    agegroup_w = row[2]
+                    logger.debug('values to import: ' + str(age) + ', ' + str(agegroup_m) + ', ' + str(agegroup_w))
                     Agegroup.objects.create(
                         age=age,
-                        agegroupm=agegroupm,
-                        agegroupw=agegroupw,
+                        agegroup_m=agegroup_m,
+                        agegroup_w=agegroup_w,
                     )
 
             self.message_user(request, "Your csv file has been imported")
@@ -77,9 +77,9 @@ class DistanceAdmin(admin.ModelAdmin):
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
-                reader = csv.reader(text_file, delimiter=';')                
+                reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.info('row in csv file:' + str(row))
+                    logger.debug('row in csv file:' + str(row))
                     if row[3] == 'distance':
                         category = 'd'
                         min_value = Helper.convert_to_seconds(row[0])
@@ -89,12 +89,12 @@ class DistanceAdmin(admin.ModelAdmin):
                         min_value = row[0]
                         max_value = row[1]
                     name = row[2]
-                    
+
                     sort_max = Helper.get_highest_distance_sort()
-                    logger.info('sort_max:' + str(sort_max))
+                    logger.debug('sort_max:' + str(sort_max))
                     sort = sort_max + 1
-                    logger.info('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value)
-                                + ', ' + name + ', ' + category)
+                    logger.debug('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value)
+                                 + ', ' + name + ', ' + category)
                     Distance.objects.create(
                         sort=sort,
                         min=min_value,
@@ -102,7 +102,7 @@ class DistanceAdmin(admin.ModelAdmin):
                         name=name,
                         category=category
                     )
-                
+
             self.message_user(request, "Your csv file has been imported")
             return redirect("..")
         form = CsvImportForm()
@@ -131,15 +131,16 @@ class EventAdmin(admin.ModelAdmin):
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
-                reader = csv.reader(text_file, delimiter=';')                
+                reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.info('row in csv file:' + str(row))
-                    logger.info('columns:' + str(len(row)))
+                    logger.debug('row in csv file:' + str(row))
+                    logger.debug('columns:' + str(len(row)))
                     date = row[0]
                     location = row[1]
                     website = row[2]
                     note = row[3]
-                    logger.info('values to import: ' + str(date) + ', ' + str(location) + ', ' + str(website) + ', ' + str(note))
+                    logger.debug('values to import: ' + str(date) + ', ' + str(location) + ', ' + str(website) + ', '
+                                 + str(note))
                     Event.objects.create(
                         date=date,
                         location=location,
@@ -185,12 +186,13 @@ class MemberAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')                
                 for row in reader:
-                    logger.info('row in csv file:' + str(row))
+                    logger.debug('row in csv file:' + str(row))
                     firstname = row[0]
                     lastname = row[1]
                     sex = row[2]
                     year_of_birth = row[3]
-                    logger.info('values to import: ' + str(firstname) + ', ' + str(lastname) + ', ' + str(sex) + ', ' + str(year_of_birth))
+                    logger.debug('values to import: ' + str(firstname) + ', ' + str(lastname) + ', ' + str(sex) + ', '
+                                 + str(year_of_birth))
                     Member.objects.create(
                         firstname=firstname,
                         lastname=lastname,
@@ -239,9 +241,9 @@ class ResultAdmin(admin.ModelAdmin):
         agegroup_id = obj_agegroup.age
         logger.debug("save_model agegroup_id: " + str(agegroup_id))
         if sex == 'm':
-            agegroup = obj_agegroup.agegroupm
+            agegroup = obj_agegroup.agegroup_m
         else:
-            agegroup = obj_agegroup.agegroupw
+            agegroup = obj_agegroup.agegroup_w
         obj.agegroup = agegroup
         # finally save the object in db
         super().save_model(request, obj, form, change)
