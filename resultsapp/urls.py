@@ -8,6 +8,8 @@ from .views import (
     events_for_year_list_view,
     events_update_view,
     get_years_with_events_view,
+    record_list_m_view,
+    record_list_w_view
 )
 
 app_name = 'resultsapp'
@@ -20,4 +22,6 @@ urlpatterns = [
     path('event/<int:id>/', events_detail_view, name='events-detail'),
     path('event/<int:id>/update/', events_update_view, name='events-update'),
     path('event/<int:id>/delete/', events_delete_view, name='events-delete'),
+    path('recordlistm', record_list_m_view, name='record-list-m'),
+    path('recordlistw', record_list_w_view, name='record-list-w'),
 ]
