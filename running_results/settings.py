@@ -114,6 +114,7 @@ LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'UTC'
 
+# language e.g. in admin area
 USE_I18N = True
 
 USE_L10N = True
