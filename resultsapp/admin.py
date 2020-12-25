@@ -184,7 +184,7 @@ class MemberAdmin(admin.ModelAdmin):
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
-                reader = csv.reader(text_file, delimiter=';')                
+                reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug('row in csv file:' + str(row))
                     firstname = row[0]
@@ -214,12 +214,17 @@ class ResultAdmin(admin.ModelAdmin):
     # what files are shown in form
     fields = ['result_value', 'distance_id', 'event_id', 'member_id']
     # show result data
-    list_display = ('result_value', 'distance_id', 'agegroup', 'member_id', 'event_id')
+    list_display = ('time_seconds', 'distance_id', 'agegroup', 'member_id', 'event_id')
     # show filer
     list_filter = ('agegroup', 'distance_id', 'member_id', 'event_id')
 
     actions = [export_results_csv]
-    
+
+    # define the format of result_value, otherwise seconds are missing
+    def time_seconds(self, obj):
+        return obj.result_value.strftime("%H:%M:%S")
+    time_seconds.short_description = 'Time'
+
     def save_model(self, request, obj, form, change):
         # get year_of_birth
         logger.debug("save_model member_id: " + str(form.cleaned_data['member_id']))
@@ -247,7 +252,7 @@ class ResultAdmin(admin.ModelAdmin):
         obj.agegroup = agegroup
         # finally save the object in db
         super().save_model(request, obj, form, change)
-    
+
 
 admin.site.register(Agegroup, AgegroupAdmin)
 admin.site.register(Distance, DistanceAdmin)
