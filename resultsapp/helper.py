@@ -1,5 +1,5 @@
 from django.db.models import Max
-from .models import Distance
+from .models import Distance, Event
 
 import datetime
 import logging
@@ -33,3 +33,25 @@ class Helper():
             else:
                 max_sort = 0
         return max_sort
+
+    @staticmethod
+    # member = "lastname3, firstname3 m 2000"
+    def get_sex_from_result_member(member):
+        sex = str(member).split(" ")[2]
+        return sex
+
+    @staticmethod
+    def get_years_with_events():
+        queryset = Event.objects.all().order_by('-date')
+        years = []
+        for item in queryset:
+            year = item.date.year
+            if year not in years:
+                years.append(year)
+        return years
+
+    @staticmethod
+    # event = "2020-10-20 Frankfurt"
+    def get_year_from_result_event(event):
+        year = str(event).split("-")[0]
+        return year
