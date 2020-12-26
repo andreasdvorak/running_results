@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 import datetime
+import logging
+
+logger = logging.getLogger('console_file')
 
 
 class Agegroup(models.Model):

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<p>List of events</p>
+<h1>Records female</h1>
 
 {% if year_list %}
     <div class="dropdown">
@@ -11,7 +11,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% for year in year_list %}
-        <a class="dropdown-item" href="{% url 'resultsapp:events-for-year-list' year %}">{{ year }}</a>
+        <a class="dropdown-item" href="{% url 'resultsapp:annual-records-w-for-year-list' year %}">{{ year }}</a>
         {% endfor %}
     </div>
     </div>
@@ -21,20 +21,22 @@
 
 <p></p>
 
-{% if object_list %}
+{% if result_object_list %}
 <table class="table table-striped">
-     <tr>
-          <th scope="col">Datum</th>
-          <th scope="col">Ort</th>
-     </tr>
-{% for instance in object_list %}
-     <tr>
-          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a></td>
-          <td><a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></td>
+    <tr>
+        <th scope="col">Distance</th>
+        <th scope="col">Result</th>
+        <th scope="col">Member</th>
+        <th scope="col">Event</th>
+    </tr>
+{% for instance in result_object_list %}
+    <tr>
+        <td>{{ instance.distance_id }}</td>
+        <td>{{ instance.result_value|time:"H:i:s" }}</td>
+        <td>{{ instance.member_id }}</td>
+        <td>{{ instance.event_id }}</td>
 {% endfor %}
-     </tr>
+    </tr>
 </table>
-{% else %}
-<p>There are no events</p>
 {% endif %}
 {% endblock %}

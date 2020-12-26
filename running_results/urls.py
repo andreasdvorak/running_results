@@ -23,8 +23,5 @@ urlpatterns = [
     path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
     path('contact/', contact_view, name='contact'),
-    # path('results/', include('resultsapp.urls')),
-    path('distances/', include('resultsapp.urls', namespace='distances')),
-    path('events/', include('resultsapp.urls', namespace='events')),
-    # path('events/', get_years_with_events_view, name='events-list'),
+    path('results/', include('resultsapp.urls', namespace='results')),
 ]

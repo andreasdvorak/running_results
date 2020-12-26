@@ -7,6 +7,58 @@ import logging
 logger = logging.getLogger('console_file')
 
 
+def annual_records_m_view(request, year):
+    logger.debug('create annual record list male for year ' + str(year))
+    distance_queryset = Distance.objects.all()
+    records = []
+    for distance in distance_queryset:
+        distance_object = Distance.objects.get(name=distance)
+        logger.debug('distance.id: ' + str(distance_object.id))
+        result_queryset = Result.objects.filter(distance_id=distance_object.id).order_by('result_value')
+        for result_item in result_queryset:
+            member = result_item.member_id
+            logger.debug('member: ' + str(member))
+            sex = Helper.get_sex_from_result_member(member)
+            if sex == "m":
+                event = result_item.event_id
+                if str(year) == Helper.get_year_from_result_event(event):
+                    records.append(result_item)
+                    logger.debug('added result_item: ' + str(result_item))
+                    break
+    years = Helper.get_years_with_events()
+    context = {
+        "result_object_list": records,
+        "year_list": years,
+    }
+    return render(request, "resultsapp/annual_record_list_m.html", context)
+
+
+def annual_records_w_view(request, year):
+    logger.debug('create annual record list female for year ' + str(year))
+    distance_queryset = Distance.objects.all()
+    records = []
+    for distance in distance_queryset:
+        distance_object = Distance.objects.get(name=distance)
+        logger.debug('distance.id: ' + str(distance_object.id))
+        result_queryset = Result.objects.filter(distance_id=distance_object.id).order_by('result_value')
+        for result_item in result_queryset:
+            member = result_item.member_id
+            logger.debug('member: ' + str(member))
+            sex = Helper.get_sex_from_result_member(member)
+            if sex == "w":
+                event = result_item.event_id
+                if str(year) == Helper.get_year_from_result_event(event):
+                    records.append(result_item)
+                    logger.debug('added result_item: ' + str(result_item))
+                    break
+    years = Helper.get_years_with_events()
+    context = {
+        "result_object_list": records,
+        "year_list": years,
+    }
+    return render(request, "resultsapp/annual_record_list_w.html", context)
+
+
 def about_view(request, *args, **kwargs):
     return render(request, "about.html", {})
 
@@ -57,12 +109,7 @@ def events_update_view(request, id=id):
 
 def events_for_year_list_view(request, year):
     queryset = Event.objects.filter(date__iregex=r"{}.*".format(year)).order_by('-date')
-    queryset_years = Event.objects.all().order_by('-date')
-    years = []
-    for item in queryset_years:
-        year = item.date.year
-        if year not in years:
-            years.append(year)
+    years = Helper.get_years_with_events()
     context = {
         "object_list": queryset,
         "year_list": years,
@@ -89,13 +136,24 @@ def events_delete_view(request, id):
     return render(request, "resultsapp/events_delete.html", context)
 
 
+def get_years_with_annual_records_m_view(request):
+    years = Helper.get_years_with_events()
+    context = {
+        "year_list": years
+    }
+    return render(request, "resultsapp/annual_records_m_filter.html", context)
+
+
+def get_years_with_annual_records_w_view(request):
+    years = Helper.get_years_with_events()
+    context = {
+        "year_list": years
+    }
+    return render(request, "resultsapp/annual_records_w_filter.html", context)
+
+
 def get_years_with_events_view(request):
-    queryset = Event.objects.all().order_by('-date')
-    years = []
-    for item in queryset:
-        year = item.date.year
-        if year not in years:
-            years.append(year)
+    years = Helper.get_years_with_events()
     context = {
         "year_list": years
     }
@@ -119,7 +177,7 @@ def record_list_m_view(request):
         for result_item in result_queryset:
             member = result_item.member_id
             logger.debug('member: ' + str(member))
-            sex = str(member).split(" ")[2]
+            sex = Helper.get_sex_from_result_member(member)
             if sex == "m":
                 records.append(result_item)
                 break
@@ -142,7 +200,7 @@ def record_list_w_view(request):
         for result_item in result_queryset:
             member = result_item.member_id
             logger.debug('member: ' + str(member))
-            sex = str(member).split(" ")[2]
+            sex = Helper.get_sex_from_result_member(member)
             if sex == "w":
                 records.append(result_item)
                 break
