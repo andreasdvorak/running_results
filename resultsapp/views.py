@@ -63,8 +63,8 @@ def about_view(request, *args, **kwargs):
     return render(request, "about.html", {})
 
 
-def contact_view(request, *args, **kwargs):
-    return render(request, "contact.html", {})
+def club_view(request, *args, **kwargs):
+    return render(request, "club_view.html", {})
 
 
 def distance_detail_view(request, id):
