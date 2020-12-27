@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from resultsapp.views import about_view, contact_view, home_view
+from resultsapp.views import about_view, club_view, home_view
 
 urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
-    path('contact/', contact_view, name='contact'),
+    path('club_details/', club_view, name='club_view'),
     path('results/', include('resultsapp.urls', namespace='results')),
 ]
