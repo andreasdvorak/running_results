@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import EventsForm
 from .helper import Helper
-from .models import Distance, Event, Result
+from .models import Club, Distance, Event, Result
 import logging
 
 logger = logging.getLogger('console_file')
@@ -63,8 +63,12 @@ def about_view(request, *args, **kwargs):
     return render(request, "about.html", {})
 
 
-def club_view(request, *args, **kwargs):
-    return render(request, "club_view.html", {})
+def club_view(request):
+    obj = Club.objects.all()
+    context = {
+        "object": obj
+    }
+    return render(request, "resultsapp/club_view.html", context)
 
 
 def distance_detail_view(request, id):

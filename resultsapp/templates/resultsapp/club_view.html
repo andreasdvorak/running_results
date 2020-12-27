@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+ 
+{%block content %}
+<br>
+{% if object %}
+    {% for instance in object %}
+        <h1>{{ instance.name }}</h1>
+        <br>
+        {% if instance.email %}
+        <p>E-Mail for new results: {{ instance.email }}</p>
+        {% endif %}
+        <br>
+        {% if instance.info %}
+        <p>{{ instance.info }}</p>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}

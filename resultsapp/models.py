@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 import datetime
@@ -17,6 +18,17 @@ class Agegroup(models.Model):
 
     class Meta:
         ordering = ("age", "agegroup_m", "agegroup_w")
+
+
+class Club(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField(max_length=254, null=True, blank=True)
+    info = models.TextField(null=True, blank=True)
+    allow_public_record = models.BooleanField(default=False)
+
+    # show name instead of Club object (x)
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Distance(models.Model):
