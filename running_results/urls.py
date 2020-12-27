@@ -22,6 +22,5 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
     path('admin/', admin.site.urls),
-    path('club_details/', club_view, name='club_view'),
     path('results/', include('resultsapp.urls', namespace='results')),
 ]

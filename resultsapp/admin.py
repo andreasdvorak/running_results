@@ -5,7 +5,7 @@ from django.urls import path
 from django.utils.html import format_html
 from .actions import export_member_csv, export_results_csv
 from .helper import Helper
-from .models import Agegroup, Event, Distance, Member, Result
+from .models import Agegroup, Club, Event, Distance, Member, Result
 import csv
 import io
 import logging
@@ -57,6 +57,16 @@ class AgegroupAdmin(admin.ModelAdmin):
             request, "resultsapp/csv_form.html", payload
         )
         # end csv import
+
+
+class ClubAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'info', 'allow_public_record')
+
+    # only one instance allowed
+    def has_add_permission(self, request):
+        if self.model.objects.count() >= 1:
+            return False
+        return super().has_add_permission(request)
 
 
 class DistanceAdmin(admin.ModelAdmin):
@@ -255,6 +265,7 @@ class ResultAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Agegroup, AgegroupAdmin)
+admin.site.register(Club, ClubAdmin)
 admin.site.register(Distance, DistanceAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Member, MemberAdmin)

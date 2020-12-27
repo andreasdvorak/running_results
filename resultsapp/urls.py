@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     annual_records_m_view,
     annual_records_w_view,
+    club_view,
     distances_list_view,
     distance_detail_view,
     events_create_view,
@@ -18,7 +19,6 @@ from .views import (
 )
 
 # url namespace, if there are several apps
-#
 app_name = 'resultsapp'
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('annualrecordlistm/year:<int:year>/', annual_records_m_view, name='annual-records-m-for-year-list'),
     path('annualrecordlistw', get_years_with_annual_records_w_view, name='annual-record-list-w'),
     path('annualrecordlistw/year:<int:year>/', annual_records_w_view, name='annual-records-w-for-year-list'),
+    path('club_details', club_view, name='club_view'),
     path('distances', distances_list_view, name='distances-list'),
     path('distances/<int:id>/', distance_detail_view, name='distance-details'),
     path('events', get_years_with_events_view, name='events-list'),
