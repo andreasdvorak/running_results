@@ -3,10 +3,7 @@
 {%block content %}
 
 <p>Organize you running results</p>
-{% endblock %}
 
-{%block content_footer %}
-User: {{ request.user }}
-<br>
-is_authentifacted: {{ request.user.is_authenticated }}
+{% load static %}
+
 {% endblock %}
