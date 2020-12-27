@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Statistics</h1>
+
+{% if object_list %}
+<table class="table table-striped">
+{% for instance in object_list %}
+     <tr>
+          <td>{{ instance }}</td>
+{% endfor %}
+     </tr>
+</table>
+{% else %}
+<p>There is no statistics</p>
+{% endif %}
+{% endblock %}

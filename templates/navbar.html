@@ -23,21 +23,14 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Distances
+                Data
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'resultsapp:distances-list' %}">List distances</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Events
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'resultsapp:events-list' %}">List events</a>
-                {% if user.is_authenticated %}
-                <a class="dropdown-item" href="{% url 'resultsapp:events-create' %}">Create event</a>
-                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'resultsapp:statistics' %}">Show statistics</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

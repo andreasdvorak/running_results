@@ -13,7 +13,8 @@ from .views import (
     get_years_with_annual_records_w_view,
     get_years_with_events_view,
     record_list_m_view,
-    record_list_w_view
+    record_list_w_view,
+    statistics_view
 )
 
 # url namespace, if there are several apps
@@ -25,7 +26,6 @@ urlpatterns = [
     path('annualrecordlistm/year:<int:year>/', annual_records_m_view, name='annual-records-m-for-year-list'),
     path('annualrecordlistw', get_years_with_annual_records_w_view, name='annual-record-list-w'),
     path('annualrecordlistw/year:<int:year>/', annual_records_w_view, name='annual-records-w-for-year-list'),
-
     path('distances', distances_list_view, name='distances-list'),
     path('distances/<int:id>/', distance_detail_view, name='distance-details'),
     path('events', get_years_with_events_view, name='events-list'),
@@ -36,4 +36,5 @@ urlpatterns = [
     path('event/<int:id>/delete/', events_delete_view, name='events-delete'),
     path('recordlistm', record_list_m_view, name='record-list-m'),
     path('recordlistw', record_list_w_view, name='record-list-w'),
+    path('statistics', statistics_view, name='statistics'),
 ]

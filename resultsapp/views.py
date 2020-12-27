@@ -210,3 +210,16 @@ def record_list_w_view(request):
         "result_object_list": records,
     }
     return render(request, "resultsapp/record_list_w.html", context)
+
+
+def statistics_view(request):
+    logger.debug('show statistic')
+    statistics = []
+    event_count = Event.objects.all().count()
+    statistics.append("Number of events: " + str(event_count))
+    result_count = Result.objects.all().count()
+    statistics.append("Number of results: " + str(result_count))
+    context = {
+        "object_list": statistics,
+    }
+    return render(request, "resultsapp/statistics.html", context)
