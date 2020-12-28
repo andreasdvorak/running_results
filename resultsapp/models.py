@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 import datetime
@@ -7,17 +6,17 @@ import logging
 logger = logging.getLogger('console_file')
 
 
-class Agegroup(models.Model):
+class AgeGroup(models.Model):
     age = models.IntegerField(unique=True)
-    agegroup_m = models.CharField(max_length=3)
-    agegroup_w = models.CharField(max_length=3)
+    age_group_m = models.CharField(max_length=3)
+    age_group_w = models.CharField(max_length=3)
 
-    # show agegroup_m of Distance object (x)
+    # show age_group_m of Discipline object (x)
     def __str__(self):
         return f"{self.age}"
 
     class Meta:
-        ordering = ("age", "agegroup_m", "agegroup_w")
+        ordering = ("age", "age_group_m", "age_group_w")
 
 
 class Club(models.Model):
@@ -31,20 +30,36 @@ class Club(models.Model):
         return f"{self.name}"
 
 
-class Distance(models.Model):
-    category_choices = [('d', 'distance'), ('t', 'time')]
+class DisciplineDistance(models.Model):
     sort = models.IntegerField(unique=True)
-    min = models.IntegerField()
-    max = models.IntegerField()
+    min = models.TimeField(auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
+    max = models.TimeField(auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
     name = models.CharField(max_length=40, unique=True)
-    category = models.CharField(choices=category_choices, max_length=1)
 
-    # show name instead of Distance object (x)
+    # show name instead of DisciplineDistance object (x)
     def __str__(self):
         return f"{self.name}"
 
     def get_absolute_url(self):
-        return reverse("resultsapp:distance-details", kwargs={"id": self.id})
+        return reverse("resultsapp:discipline_distance_details", kwargs={"id": self.id})
+
+    # order first for sort and than name
+    class Meta:
+        ordering = ("sort", "name")
+
+
+class DisciplineTime(models.Model):
+    sort = models.IntegerField(unique=True)
+    min = models.IntegerField(null=True, blank=True)
+    max = models.IntegerField(null=True, blank=True)
+    name = models.CharField(max_length=40, unique=True)
+
+    # show name instead of DisciplineTime object (x)
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse("resultsapp:discipline_time_details", kwargs={"id": self.id})
 
     # order first for sort and than name
     class Meta:
@@ -57,7 +72,7 @@ class Event(models.Model):
     website = models.URLField(null=True, blank=True, max_length=200)
     note = models.TextField(null=True, blank=True)
 
-    # show date and location instead of Distance object (x)
+    # show date and location instead of Discipline object (x)
     def __str__(self):
         return f"{self.date} {self.location}"
 
@@ -94,15 +109,31 @@ class Member(models.Model):
         ordering = ("-lastname", "firstname", "year_of_birth")
 
 
-class Result(models.Model):
-    distance_id = models.ForeignKey(Distance, on_delete=models.CASCADE, verbose_name="distance")
+# results for discipline as distance
+class ResultDistance(models.Model):
+    discipline_id = models.ForeignKey(DisciplineDistance, on_delete=models.CASCADE, verbose_name="discipline")
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="event")
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="member")
-    agegroup = models.CharField(max_length=3)
+    age_group = models.CharField(max_length=3)
     result_value = models.TimeField(auto_now=False, auto_now_add=False, default="00:00:00", help_text="hh:mm:ss")
 
     def get_absolute_url(self):
         return reverse("app:result-detail", kwargs={"id": self.id})
 
     class Meta:
-        ordering = ("agegroup", "distance_id", "result_value")
+        ordering = ("age_group", "discipline_id", "result_value")
+
+
+# results for discipline as time
+class ResultTime(models.Model):
+    discipline_id = models.ForeignKey(DisciplineTime, on_delete=models.CASCADE, verbose_name="discipline")
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="event")
+    member_id = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="member")
+    age_group = models.CharField(max_length=3)
+    result_value = models.IntegerField(help_text="Meter")
+
+    def get_absolute_url(self):
+        return reverse("app:result-detail", kwargs={"id": self.id})
+
+    class Meta:
+        ordering = ("age_group", "discipline_id", "result_value")

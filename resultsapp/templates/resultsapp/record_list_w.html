@@ -4,22 +4,27 @@
 
 <h1>Records female</h1>
 
-{% if result_object_list %}
 <table class="table table-striped">
     <tr>
-        <th scope="col">Distance</th>
+        <th scope="col">Discipline</th>
         <th scope="col">Result</th>
         <th scope="col">Member</th>
         <th scope="col">Event</th>
     </tr>
-{% for instance in result_object_list %}
+{% for instance in result_distance_object_list %}
     <tr>
-        <td>{{ instance.distance_id }}</td>
+        <td>{{ instance.discipline_id }}</td>
         <td>{{ instance.result_value|time:"H:i:s" }}</td>
+        <td>{{ instance.member_id }}</td>
+        <td>{{ instance.event_id }}</td>
+{% endfor %}
+{% for instance in result_time_object_list %}
+    <tr>
+        <td>{{ instance.discipline_id }}</td>
+        <td>{{ instance.result_value }}</td>
         <td>{{ instance.member_id }}</td>
         <td>{{ instance.event_id }}</td>
 {% endfor %}
     </tr>
 </table>
-{% endif %}
 {% endblock %}

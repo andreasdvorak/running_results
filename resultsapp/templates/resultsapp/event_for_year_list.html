@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<p>List of events</p>
+<h1>List of events</h1>
 
 {% if year_list %}
     <div class="dropdown">
@@ -11,7 +11,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         {% for year in year_list %}
-        <a class="dropdown-item" href="{% url 'resultsapp:events-for-year-list' year %}">{{ year }}</a>
+        <a class="dropdown-item" href="{% url 'resultsapp:event-for-year-list' year %}">{{ year }}</a>
         {% endfor %}
     </div>
     </div>

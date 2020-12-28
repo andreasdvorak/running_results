@@ -1,5 +1,5 @@
 from django.db.models import Max
-from .models import Distance, Event
+from .models import DisciplineDistance, DisciplineTime, Event
 
 import datetime
 import logging
@@ -17,16 +17,28 @@ class Helper():
     def convert_to_seconds(time_str):
         try:
             h, m, s = time_str.split(':')
-            totalseconds = int(h) * 3600 + int(m) * 60 + int(s)
-            return totalseconds
+            total_seconds = int(h) * 3600 + int(m) * 60 + int(s)
+            return total_seconds
         except ValueError:
             logger.error("Wrong time:" + time_str)
 
     @staticmethod
     # get highest sort number
-    def get_highest_distance_sort():
+    def get_highest_discipline_distance_sort():
         max_sort = 0
-        sort_max = Distance.objects.all().aggregate(Max('sort'))
+        sort_max = DisciplineDistance.objects.all().aggregate(Max('sort'))
+        for key, value in sort_max.items():
+            if value:
+                max_sort = value
+            else:
+                max_sort = 0
+        return max_sort
+
+    @staticmethod
+    # get highest sort number
+    def get_highest_discipline_time_sort():
+        max_sort = 0
+        sort_max = DisciplineTime.objects.all().aggregate(Max('sort'))
         for key, value in sort_max.items():
             if value:
                 max_sort = value
