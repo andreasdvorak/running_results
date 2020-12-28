@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>List of disciplines</h1>
+
+<table class="table table-striped">
+     <tr>
+          <th scope="col">Name of discipline</th>
+     </tr>
+{% if queryset_distance %}
+{% for instance in queryset_distance %}
+     <tr>
+          <td>{{ instance.name }}</td>
+{% endfor %}
+     </tr>
+{% endif %}
+{% if queryset_time %}
+{% for instance in queryset_time %}
+     <tr>
+          <td>{{ instance.name }}</td>
+{% endfor %}
+     </tr>
+</table>
+{% endif %}
+{% endblock %}

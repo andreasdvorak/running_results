@@ -44,7 +44,7 @@ def export_results_csv(modeladmin, request, queryset):
     writer.writerow([
         # smart_str(u"ID"),
         smart_str(u"Result_Value"),
-        smart_str(u"Distance"),
+        smart_str(u"Discipline"),
         smart_str(u"Event"),
         smart_str(u"Lastname"),
         smart_str(u"Firstname"),
@@ -59,7 +59,7 @@ def export_results_csv(modeladmin, request, queryset):
         writer.writerow([
             # smart_str(obj.pk),
             smart_str(obj.result_value),
-            smart_str(obj.distance_id),
+            smart_str(obj.discipline_id),
             smart_str(obj.event_id),
             smart_str(lastname),
             smart_str(firstname),

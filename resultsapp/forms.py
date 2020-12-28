@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Result
+from .models import Event, ResultDistance
 
 
 class EventsForm(forms.ModelForm):
@@ -21,9 +21,9 @@ class EventsForm(forms.ModelForm):
         ]
 
 
-class ResultForm(forms.ModelForm):
+class ResultDistanceForm(forms.ModelForm):
 
-    # do not show agegroup
+    # do not show age_group
     class Meta:
-        model = Result
-        exclude = ['agegroup']
+        model = ResultDistance
+        exclude = ['age_group']
