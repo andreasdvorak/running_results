@@ -9,3 +9,4 @@ info.txt
 db.sqlite3
 */migrations/*
 */__pycache__/*
+running_results/.env
