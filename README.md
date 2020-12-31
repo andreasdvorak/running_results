@@ -25,6 +25,7 @@ and ...
 CCS with Bootstrap
 
 ## Tuturial
+https://github.com/ad-software/running_results/wiki/Tutorial
 
 ## Quick Start
 ```
@@ -35,6 +36,16 @@ $ source env/bin/activate
 (env) $ pip3 install -r  requirements.txt
 (env) $ python manage.py
 ```
+
+## Environment setup
+Create the file running_results/.env with the following parameter
+
+```
+ALLOWED_HOSTS=
+DEBUG=
+SECRET_KEY=`
+```
+
 
 ## Database
 
