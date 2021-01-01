@@ -43,9 +43,12 @@ Create the file running_results/.env with the following parameter
 ```
 ALLOWED_HOSTS=
 DEBUG=
-SECRET_KEY=`
+SECRET_KEY=
 ```
 
+If DEBUG equals "True", ALLOWED_HOSTS can be empty.
+
+For local testing use: localhost,127.0.0.1
 
 ## Database
 
