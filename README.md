@@ -1,10 +1,13 @@
 # running results
-Open source system to manage running result for sports clubs based on Django framework.
+Open source system to manage running result for sports clubs
+* Python
+* Django framework
+* Docker
 
-Please use the develop branch as the target for pull requests for on-going development.
+Please use the develop branch as the target for pull requests for ongoing development.
 
 ## Status
-first code and conception phase
+Development phase
 
 ## Features
 * Import of data
@@ -24,10 +27,17 @@ and ...
 ## Documentation
 CCS with Bootstrap
 
-## Tuturial
+## Tutorial
 https://github.com/ad-software/running_results/wiki/Tutorial
 
-## Quick Start
+# Quick Start
+'$ git clone https://github.com/ad-software/running_results???'
+'$ cd running_results'
+
+Edit .env files
+* .env
+* running_results/.env
+
 ```
 $ pip install --upgrade virtualenv
 $ python3 -m venv env
@@ -42,6 +52,9 @@ Create the file running_results/.env with the following parameter
 
 ```
 ALLOWED_HOSTS=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
 DEBUG=
 SECRET_KEY=
 ```
@@ -54,12 +67,12 @@ For local testing use: localhost,127.0.0.1
 
 ### Database Tables
 Now run migrations to create database tables for the apps.
-python manage.py migrate
+'docker-compose exec web python manage.py makemigrations'
+'docker-compose exec web python manage.py migrate'
 
 ## Admin User
 Create an admin superuser:
-
-python manage.py createsuperuser
+'python manage.py createsuperuser'
 
 ## Language Settings
 
