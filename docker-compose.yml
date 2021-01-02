@@ -14,7 +14,7 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_PASSWORD: hunter2
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     adminer:
         image: adminer
         restart: always
