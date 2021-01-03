@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from resultsapp.views import about_view, club_view, home_view
+from resultsapp.views import about_view, home_view
 
 urlpatterns = [
     path('', home_view, name='home'),
