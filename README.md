@@ -20,48 +20,43 @@ Development phase
 * List of events
 
 ## Requirements
-requirements.txt
-
-and ...
-
-## Documentation
-CCS with Bootstrap
+* Docker
++ Docker Compose
 
 ## Tutorial
 https://github.com/ad-software/running_results/wiki/Tutorial
 
 # Quick Start
-'$ git clone https://github.com/ad-software/running_results???'
-'$ cd running_results'
+`$ git clone https://github.com/ad-software/running_results`
+
+`$ cd running_results`
 
 Edit .env files
 * .env
 * running_results/.env
 
-```
-$ pip install --upgrade virtualenv
-$ python3 -m venv env
-$ source env/bin/activate
+**.env**
+`POSTGRES_PASSWORD=<PASSWORD>`
 
-(env) $ pip3 install -r  requirements.txt
-(env) $ python manage.py
-```
-
-## Environment setup
-Create the file running_results/.env with the following parameter
+**running_results/.env**
 
 ```
-ALLOWED_HOSTS=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DEBUG=
-SECRET_KEY=
+ALLOWED_HOSTS=<localhost,127.0.0.1 for Test, or public ip>
+DB_NAME=<name of database>
+DB_USER=<name of user for database>
+DB_PASSWORD=<PASSWORD>
+DEBUG=<True or False>
+SECRET_KEY=<Django secret>
 ```
 
 If DEBUG equals "True", ALLOWED_HOSTS can be empty.
 
 For local testing use: localhost,127.0.0.1
+
+`docker-compose up`
+
+
+
 
 ## Database
 
