@@ -9,5 +9,6 @@ RUN pip install -r requirements.txt
 
 # Now copy in our code, and run it
 COPY . /app
+RUN mkdir /app/logs
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
