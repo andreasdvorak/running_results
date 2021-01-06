@@ -36,6 +36,7 @@ Edit .env files
 * running_results/.env
 
 **.env**
+
 `POSTGRES_PASSWORD=<PASSWORD>`
 
 **running_results/.env**
