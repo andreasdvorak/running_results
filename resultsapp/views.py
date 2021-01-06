@@ -241,12 +241,35 @@ def record_list_w_view(request):
 def statistics_view(request):
     logger.debug('show statistic')
     statistics = []
+
     event_count = Event.objects.all().count()
     statistics.append("Number of events: " + str(event_count))
+
+    years = Helper.get_years_with_events()
+    for year in years:
+        event_count = Event.objects.filter(date__iregex=r"{}.*".format(year)).count()
+        statistics.append("Number of events in " + str(year) + ": " + str(event_count))
+
     result_count_distance = ResultDistance.objects.all().count()
     result_count_time = ResultTime.objects.all().count()
     result_count = int(result_count_distance) + int(result_count_time)
     statistics.append("Number of results: " + str(result_count))
+
+    result_distance_queryset = ResultDistance.objects.all()
+    result_time_queryset = ResultTime.objects.all()
+    for year in years:
+        logger.debug("year: " + str(year))
+        result_counter = 0
+        for result in result_distance_queryset:
+            logger.debug(str(result.event_id))
+            if str(year) == Helper.get_year_from_result_event(result.event_id):
+                result_counter = result_counter + 1
+        for result in result_time_queryset:
+            logger.debug(str(result.event_id))
+            if str(year) == Helper.get_year_from_result_event(result.event_id):
+                result_counter = result_counter + 1
+        statistics.append("Number of results in " + str(year) + ": " +str(result_counter))
+
     context = {
         "object_list": statistics,
     }
