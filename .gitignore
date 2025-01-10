@@ -5,6 +5,7 @@
 bootstrap
 db.sqlite3
 fontawesome
+*.log
 logs/*
 */migrations/*
 */__pycache__/*

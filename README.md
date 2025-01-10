@@ -97,6 +97,9 @@ Installation of requirements
 ## PyLint
 https://learndjango.com/tutorials/pre-commit-django
 
+Test everything
+    pre-commit run --all-files
+
 ## Cleanup
 
 # Adminer
