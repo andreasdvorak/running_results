@@ -1,12 +1,13 @@
+.cache
 .env
-.github
 .idea
 .vscode
 bootstrap
+db.sqlite3
 fontawesome
 logs/*
-db.sqlite3
 */migrations/*
 */__pycache__/*
+__pycache__
 running_results/.env
 venv
