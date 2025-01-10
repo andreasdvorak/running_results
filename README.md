@@ -1,8 +1,8 @@
 # running results
 Open source system to manage running result for sports clubs
-* Python
-* Django framework
-* Docker
+* Python https://www.python.org/
+* Django framework https://www.djangoproject.com/
+* Docker https://www.docker.com/
 
 Please use the develop branch as the target for pull requests for ongoing development.
 
@@ -21,7 +21,6 @@ Development phase
 
 ## Requirements
 * Docker
-+ Docker Compose
 
 ## Tutorial
 https://github.com/ad-software/running_results/wiki/Tutorial
@@ -54,21 +53,21 @@ If DEBUG equals "True", ALLOWED_HOSTS can be empty.
 
 For local testing use: localhost,127.0.0.1
 
-`docker-compose up`
-
-
-
+    docker compose up
 
 ## Database
 
 ### Database Tables
 Now run migrations to create database tables for the apps.
-'docker-compose exec web python manage.py makemigrations'
-'docker-compose exec web python manage.py migrate'
+'docker compose exec web python manage.py makemigrations'
+'docker compose exec web python manage.py migrate'
 
 ## Admin User
 Create an admin superuser:
 'python manage.py createsuperuser'
+
+# Open web site
+http://localhost:8000
 
 ## Language Settings
 
@@ -78,3 +77,38 @@ Create an admin superuser:
 
 ## Demo
 
+# Development
+## Virtualenv
+Installation of virtualenv
+    pip install virtualenv
+
+On Debian/Ubuntu systems
+    apt install python3.10-venv
+
+Creation of virtual env
+    python3 -m venv venv
+
+Activation of virtual env
+    source venv/bin/activate
+
+Installation of requirements
+    pip install -r requirements.txt
+
+## Cleanup 
+
+# Adminer
+Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP
+
+https://hub.docker.com/_/adminer/
+
+http://localhost:8080
+
+System: PostgreSQL
+Server: db:5432 (the service name from docker-compose.yml)
+Username: .env
+Password: .env
+Database: .env
+
+
+python manage.py migrate
+python manage.py runserver

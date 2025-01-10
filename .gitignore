@@ -3,10 +3,10 @@
 .idea
 .vscode
 bootstrap
-env
 fontawesome
 logs/*
 db.sqlite3
 */migrations/*
 */__pycache__/*
 running_results/.env
+venv
