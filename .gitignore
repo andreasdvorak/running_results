@@ -10,5 +10,6 @@ logs/*
 */migrations/*
 */__pycache__/*
 __pycache__
+postgres
 running_results/.env
 venv
