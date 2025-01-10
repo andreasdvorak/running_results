@@ -94,7 +94,10 @@ Activation of virtual env
 Installation of requirements
     pip install -r requirements.txt
 
-## Cleanup 
+## PyLint
+https://learndjango.com/tutorials/pre-commit-django
+
+## Cleanup
 
 # Adminer
 Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP
