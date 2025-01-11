@@ -21,9 +21,11 @@ app_name = 'resultsapp'
 
 urlpatterns = [
     path('annualrecordlistm', years_with_annual_records_m_view, name='annual-record-list-m'),
-    path('annualrecordlistm/year:<int:year>/', annual_records_m_view, name='annual-records-m-for-year-list'),
+    path('annualrecordlistm/year:<int:year>/',
+         annual_records_m_view, name='annual-records-m-for-year-list'),
     path('annualrecordlistw', years_with_annual_records_w_view, name='annual-record-list-w'),
-    path('annualrecordlistw/year:<int:year>/', annual_records_w_view, name='annual-records-w-for-year-list'),
+    path('annualrecordlistw/year:<int:year>/',
+         annual_records_w_view, name='annual-records-w-for-year-list'),
     path('club_details', club_view, name='club_view'),
     path('disciplines', discipline_list_view, name='discipline-list'),
     path('disciplines/<int:id>/', discipline_detail_view, name='discipline_distance_details'),

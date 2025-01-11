@@ -1,7 +1,7 @@
-from django.http import HttpResponse
-from django.utils.encoding import smart_str
 import csv
 import logging
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
 
 logger = logging.getLogger('console_file')
 
@@ -12,13 +12,13 @@ def export_member_csv(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename=member_export.csv'
     writer = csv.writer(response, csv.excel)
     # BOM (optional...Excel needs it to open UTF-8 file properly)
-    response.write(u'\ufeff'.encode('utf8'))
+    response.write('\ufeff'.encode('utf8'))
     writer.writerow([
-        # smart_str(u"ID"),
-        smart_str(u"Lastname"),
-        smart_str(u"Firstname"),
-        smart_str(u"Sex"),
-        smart_str(u"Year of birth"),
+        # smart_str("ID"),
+        smart_str("Lastname"),
+        smart_str("Firstname"),
+        smart_str("Sex"),
+        smart_str("Year of birth"),
     ])
     for obj in queryset:
         writer.writerow([
@@ -31,7 +31,7 @@ def export_member_csv(modeladmin, request, queryset):
     return response
 
 
-export_member_csv.short_description = u"Export Member CSV"
+export_member_csv.short_description = "Export Member CSV"
 
 
 def export_results_csv(modeladmin, request, queryset):
@@ -43,13 +43,13 @@ def export_results_csv(modeladmin, request, queryset):
     response.write(u'\ufeff'.encode('utf8'))
     writer.writerow([
         # smart_str(u"ID"),
-        smart_str(u"Result_Value"),
-        smart_str(u"Discipline"),
-        smart_str(u"Event"),
-        smart_str(u"Lastname"),
-        smart_str(u"Firstname"),
-        smart_str(u"Sex"),
-        smart_str(u"YearOfBirth"),
+        smart_str("Result_Value"),
+        smart_str("Discipline"),
+        smart_str("Event"),
+        smart_str("Lastname"),
+        smart_str("Firstname"),
+        smart_str("Sex"),
+        smart_str("YearOfBirth"),
     ])
     for obj in queryset:
         lastname = str(obj.member_id).split(" ")[0][:-1]

@@ -23,10 +23,10 @@ Development phase
 * Docker
 
 ## Tutorial
-https://github.com/ad-software/running_results/wiki/Tutorial
+https://github.com/andreasdvorak/running_results/wiki/Tutorial
 
 # Quick Start
-`$ git clone https://github.com/ad-software/running_results`
+`$ git clone https://github.com/andreasdvorak/running_results`
 
 `$ cd running_results`
 
@@ -66,6 +66,9 @@ Now run migrations to create database tables for the apps.
 Create an admin superuser:
 'python manage.py createsuperuser'
 
+If using docker
+    docker compose exec web python manage.py createsuperuser
+
 # Open web site
 http://localhost:8000
 
@@ -100,7 +103,15 @@ https://learndjango.com/tutorials/pre-commit-django
 Test everything
     pre-commit run --all-files
 
+Run manually
+    pylint $(git ls-files '*.py')
+
 ## Cleanup
+To rest the database and caches to this
+    rm postgres
+    rm -rf resultapp/__pycache__
+    rm -rf running_results/__pycache__
+
 
 # Adminer
 Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP
@@ -110,10 +121,10 @@ https://hub.docker.com/_/adminer/
 http://localhost:8080
 
 System: PostgreSQL
-Server: db:5432 (the service name from docker-compose.yml)
-Username: .env
-Password: .env
-Database: .env
+Server: # the service name from docker-compose.yml
+Username: # from .env DB_USER
+Password: # from .env DB_USER
+Database: # from .env DB_NAME
 
 
 python manage.py migrate

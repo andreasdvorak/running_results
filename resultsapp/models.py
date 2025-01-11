@@ -1,7 +1,7 @@
-from django.db import models
-from django.urls import reverse
 import datetime
 import logging
+from django.db import models
+from django.urls import reverse
 
 logger = logging.getLogger('console_file')
 
@@ -32,8 +32,10 @@ class Club(models.Model):
 
 class DisciplineDistance(models.Model):
     sort = models.IntegerField(unique=True)
-    min = models.TimeField(auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
-    max = models.TimeField(auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
+    min = models.TimeField(
+        auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
+    max = models.TimeField(
+        auto_now=False, auto_now_add=False, blank=True, help_text="hh:mm:ss", null=True)
     name = models.CharField(max_length=40, unique=True)
 
     # show name instead of DisciplineDistance object (x)
@@ -111,11 +113,13 @@ class Member(models.Model):
 
 # results for discipline as distance
 class ResultDistance(models.Model):
-    discipline_id = models.ForeignKey(DisciplineDistance, on_delete=models.CASCADE, verbose_name="discipline")
+    discipline_id = models.ForeignKey(
+        DisciplineDistance, on_delete=models.CASCADE, verbose_name="discipline")
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="event")
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="member")
     age_group = models.CharField(max_length=3)
-    result_value = models.TimeField(auto_now=False, auto_now_add=False, default="00:00:00", help_text="hh:mm:ss")
+    result_value = models.TimeField(
+        auto_now=False, auto_now_add=False, default="00:00:00", help_text="hh:mm:ss")
 
     def get_absolute_url(self):
         return reverse("app:result-detail", kwargs={"id": self.id})
@@ -126,7 +130,8 @@ class ResultDistance(models.Model):
 
 # results for discipline as time
 class ResultTime(models.Model):
-    discipline_id = models.ForeignKey(DisciplineTime, on_delete=models.CASCADE, verbose_name="discipline")
+    discipline_id = models.ForeignKey(
+        DisciplineTime, on_delete=models.CASCADE, verbose_name="discipline")
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="event")
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="member")
     age_group = models.CharField(max_length=3)

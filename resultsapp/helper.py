@@ -1,8 +1,8 @@
-from django.db.models import Max
-from .models import DisciplineDistance, DisciplineTime, Event
-
 import datetime
 import logging
+
+from django.db.models import Max
+from .models import DisciplineDistance, DisciplineTime, Event
 
 logger = logging.getLogger('console_file')
 
@@ -20,7 +20,7 @@ class Helper():
             total_seconds = int(h) * 3600 + int(m) * 60 + int(s)
             return total_seconds
         except ValueError:
-            logger.error("Wrong time:" + time_str)
+            logger.error("Wrong time: %s", time_str)
 
     @staticmethod
     # get highest sort number

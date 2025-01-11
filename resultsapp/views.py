@@ -1,45 +1,47 @@
+import logging
 from django.shortcuts import render, get_object_or_404
 from .forms import EventsForm
 from .helper import Helper
 from .models import Club, DisciplineDistance, DisciplineTime, Event, ResultDistance, ResultTime
-import logging
 
 logger = logging.getLogger('console_file')
 
 
 def annual_records_m_view(request, year):
-    logger.debug('create annual record list male for year ' + str(year))
+    logger.debug("create annual record list male for year %s", year)
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
     for discipline in discipline_distance_queryset:
         discipline_object = DisciplineDistance.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultDistance.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultDistance.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "m":
                 event = result_item.event_id
                 if str(year) == Helper.get_year_from_result_event(event):
                     records_distance.append(result_item)
-                    logger.debug('added result_item: ' + str(result_item))
+                    logger.debug("added result_item: %s", result_item)
                     break
     discipline_time_queryset = DisciplineTime.objects.all()
     records_time = []
     for discipline in discipline_time_queryset:
         discipline_object = DisciplineTime.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultTime.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultTime.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "m":
                 event = result_item.event_id
                 if str(year) == Helper.get_year_from_result_event(event):
                     records_time.append(result_item)
-                    logger.debug('added result_item: ' + str(result_item))
+                    logger.debug("added result_item: %s", result_item)
                     break
     years = Helper.get_years_with_events()
     context = {
@@ -52,38 +54,40 @@ def annual_records_m_view(request, year):
 
 
 def annual_records_w_view(request, year):
-    logger.debug('create annual record list male for year ' + str(year))
+    logger.debug("create annual record list male for year %s", year)
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
     for discipline in discipline_distance_queryset:
         discipline_object = DisciplineDistance.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultDistance.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultDistance.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "w":
                 event = result_item.event_id
                 if str(year) == Helper.get_year_from_result_event(event):
                     records_distance.append(result_item)
-                    logger.debug('added result_item: ' + str(result_item))
+                    logger.debug("added result_item: %s", result_item)
                     break
     discipline_time_queryset = DisciplineTime.objects.all()
     records_time = []
     for discipline in discipline_time_queryset:
         discipline_object = DisciplineTime.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultTime.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultTime.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "w":
                 event = result_item.event_id
                 if str(year) == Helper.get_year_from_result_event(event):
                     records_time.append(result_item)
-                    logger.debug('added result_item: ' + str(result_item))
+                    logger.debug("added result_item: %s", result_item)
                     break
     years = Helper.get_years_with_events()
     context = {
@@ -168,30 +172,32 @@ def record_list_m_view(request):
     records_distance = []
     for discipline in discipline_distance_queryset:
         discipline_object = DisciplineDistance.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultDistance.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultDistance.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "m":
                 records_distance.append(result_item)
                 break
-            logger.debug('result_item: ' + str(result_item))
+            logger.debug("result_item: %s", result_item)
     discipline_time_queryset = DisciplineTime.objects.all()
     records_time = []
     for discipline in discipline_time_queryset:
         discipline_object = DisciplineTime.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultTime.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultTime.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "m":
                 records_time.append(result_item)
                 break
-            logger.debug('result_item: ' + str(result_item))
+            logger.debug("result_item: %s", result_item)
 
     context = {
         "result_distance_object_list": records_distance,
@@ -206,30 +212,32 @@ def record_list_w_view(request):
     records_distance = []
     for discipline in discipline_distance_queryset:
         discipline_object = DisciplineDistance.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultDistance.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultDistance.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "w":
                 records_distance.append(result_item)
                 break
-            logger.debug('result_item: ' + str(result_item))
+            logger.debug("result_item: %s", result_item)
     discipline_time_queryset = DisciplineTime.objects.all()
     records_time = []
     for discipline in discipline_time_queryset:
         discipline_object = DisciplineTime.objects.get(name=discipline)
-        logger.debug('discipline.id: ' + str(discipline_object.id))
-        result_queryset = ResultTime.objects.filter(discipline_id=discipline_object.id).order_by('result_value')
+        logger.debug("discipline.id: %s", discipline_object.id)
+        result_queryset = ResultTime.objects.filter(
+            discipline_id=discipline_object.id).order_by('result_value')
         for result_item in result_queryset:
             member = result_item.member_id
-            logger.debug('member: ' + str(member))
+            logger.debug("member: %s", member)
             sex = Helper.get_sex_from_result_member(member)
             if sex == "w":
                 records_time.append(result_item)
                 break
-            logger.debug('result_item: ' + str(result_item))
+            logger.debug("result_item: %s", result_item)
 
     context = {
         "result_distance_object_list": records_distance,
@@ -258,7 +266,7 @@ def statistics_view(request):
     result_distance_queryset = ResultDistance.objects.all()
     result_time_queryset = ResultTime.objects.all()
     for year in years:
-        logger.debug("year: " + str(year))
+        logger.debug("year: %s", year)
         result_counter = 0
         for result in result_distance_queryset:
             logger.debug(str(result.event_id))
@@ -268,7 +276,7 @@ def statistics_view(request):
             logger.debug(str(result.event_id))
             if str(year) == Helper.get_year_from_result_event(result.event_id):
                 result_counter = result_counter + 1
-        statistics.append("Number of results in " + str(year) + ": " +str(result_counter))
+        statistics.append(f"Number of results in {year}, {result_counter}")
 
     context = {
         "object_list": statistics,
@@ -277,6 +285,14 @@ def statistics_view(request):
 
 
 def years_with_annual_records_m_view(request):
+    """_summary_
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     years = Helper.get_years_with_events()
     context = {
         "year_list": years

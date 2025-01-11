@@ -1,3 +1,6 @@
+import csv
+import io
+import logging
 from django import forms
 from django.contrib import admin
 from django.shortcuts import get_object_or_404, redirect, render
@@ -6,10 +9,6 @@ from django.utils.html import format_html
 from .actions import export_member_csv, export_results_csv
 from .helper import Helper
 from .models import AgeGroup, Club, Event, DisciplineDistance, DisciplineTime, Member, ResultDistance, ResultTime
-import csv
-import io
-import logging
-
 
 # Get an instance of a logger
 logger = logging.getLogger('console_file')
@@ -38,11 +37,11 @@ class AgeGroupAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.debug('row in csv file:' + str(row))
+                    logger.debug("row in csv file: %s", row)
                     age = row[0]
                     age_group_m = row[1]
                     age_group_w = row[2]
-                    logger.debug('values to import: ' + str(age) + ', ' + str(age_group_m) + ', ' + str(age_group_w))
+                    logger.debug("values to import: %s, %s, %s", age, age_group_m, age_group_w)
                     AgeGroup.objects.create(
                         age=age,
                         age_group_m=age_group_m,
@@ -89,15 +88,15 @@ class DisciplineDistanceAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.debug('row in csv file:' + str(row))
+                    logger.debug("row in csv file: %s", row)
                     min_value = row[0]
                     max_value = row[1]
                     name = row[2]
                     sort_max = Helper.get_highest_discipline_distance_sort()
-                    logger.debug('sort_max:' + str(sort_max))
+                    logger.debug("sort_max: %s", sort_max)
                     sort = sort_max + 1
-                    logger.debug('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value)
-                                 + ', ' + name)
+                    logger.debug("values to import: %s, %s, %s, %s",
+                                 sort, min_value, max_value, name)
                     DisciplineDistance.objects.create(
                         sort=sort,
                         min=min_value,
@@ -135,15 +134,14 @@ class DisciplineTimeAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.debug('row in csv file:' + str(row))
+                    logger.debug("row in csv file: %s", row)
                     min_value = row[0]
                     max_value = row[1]
                     name = row[2]
                     sort_max = Helper.get_highest_discipline_time_sort()
-                    logger.debug('sort_max:' + str(sort_max))
+                    logger.debug("sort_max: %s", sort_max)
                     sort = sort_max + 1
-                    logger.debug('values to import: ' + str(sort) + ', ' + str(min_value) + ', ' + str(max_value)
-                                 + ', ' + name)
+                    logger.debug("values to import: %s, %s, %s, %s", sort, min_value, max_value, name)
                     DisciplineTime.objects.create(
                         sort=sort,
                         min=min_value,
@@ -181,14 +179,13 @@ class EventAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.debug('row in csv file:' + str(row))
-                    logger.debug('columns:' + str(len(row)))
+                    logger.debug("row in csv file: %s", row)
+                    logger.debug("columns: %s", len(row))
                     date = row[0]
                     location = row[1]
                     website = row[2]
                     note = row[3]
-                    logger.debug('values to import: ' + str(date) + ', ' + str(location) + ', ' + str(website) + ', '
-                                 + str(note))
+                    logger.debug("values to import: %s, %s, %s, %s", date, location, website, note)
                     Event.objects.create(
                         date=date,
                         location=location,
@@ -234,13 +231,13 @@ class MemberAdmin(admin.ModelAdmin):
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
-                    logger.debug('row in csv file:' + str(row))
+                    logger.debug("row in csv file: %s", row)
                     firstname = row[0]
                     lastname = row[1]
                     sex = row[2]
                     year_of_birth = row[3]
-                    logger.debug('values to import: ' + str(firstname) + ', ' + str(lastname) + ', ' + str(sex) + ', '
-                                 + str(year_of_birth))
+                    logger.debug("values to import: %s, %s, %s, %s",
+                                 firstname, lastname, sex, year_of_birth)
                     Member.objects.create(
                         firstname=firstname,
                         lastname=lastname,
@@ -275,24 +272,24 @@ class ResultDistanceAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         # get year_of_birth
-        logger.debug("save_model member_id: " + str(form.cleaned_data['member_id']))
+        logger.debug("save_model member_id: %s", form.cleaned_data['member_id'])
         member_data = str(form.cleaned_data['member_id']).split(" ")
         sex = member_data[2]
-        logger.debug("save_model sex: " + str(sex))
+        logger.debug("save_model sex: %s", sex)
         year_of_birth = member_data[3]
-        logger.debug("save_model year_of_birth: " + str(year_of_birth))
+        logger.debug("save_model year_of_birth: %s", year_of_birth)
         # get date
-        logger.debug("save_model event_id: " + str(form.cleaned_data['event_id']))
+        logger.debug("save_model event_id: %s", form.cleaned_data['event_id'])
         event_data = str(form.cleaned_data['event_id']).split(" ")
         date = event_data[0]
         year_of_event = date.split("-")[0]
-        logger.debug("save_model year_of_event: " + str(year_of_event))
+        logger.debug("save_model year_of_event: %s", year_of_event)
         age = int(year_of_event) - int(year_of_birth)
-        logger.debug("save_model age: " + str(age))
+        logger.debug("save_model age: %s", age)
         # get the age_group
         obj_age_group = get_object_or_404(AgeGroup, age=age)
         age_group_id = obj_age_group.age
-        logger.debug("save_model age_group_id: " + str(age_group_id))
+        logger.debug("save_model age_group_id: %s", age_group_id)
         if sex == 'm':
             age_group = obj_age_group.age_group_m
         else:
@@ -314,24 +311,24 @@ class ResultTimeAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         # get year_of_birth
-        logger.debug("save_model member_id: " + str(form.cleaned_data['member_id']))
+        logger.debug("save_model member_id: %s", form.cleaned_data['member_id'])
         member_data = str(form.cleaned_data['member_id']).split(" ")
         sex = member_data[2]
-        logger.debug("save_model sex: " + str(sex))
+        logger.debug("save_model sex: %s", sex)
         year_of_birth = member_data[3]
-        logger.debug("save_model year_of_birth: " + str(year_of_birth))
+        logger.debug("save_model year_of_birth: %s", year_of_birth)
         # get date
-        logger.debug("save_model event_id: " + str(form.cleaned_data['event_id']))
+        logger.debug("save_model event_id: %s", form.cleaned_data['event_id'])
         event_data = str(form.cleaned_data['event_id']).split(" ")
         date = event_data[0]
         year_of_event = date.split("-")[0]
-        logger.debug("save_model year_of_event: " + str(year_of_event))
+        logger.debug("save_model year_of_event: %s", year_of_event)
         age = int(year_of_event) - int(year_of_birth)
-        logger.debug("save_model age: " + str(age))
+        logger.debug("save_model age: %s", age)
         # get the age_group
         obj_age_group = get_object_or_404(AgeGroup, age=age)
         age_group_id = obj_age_group.age
-        logger.debug("save_model age_group_id: " + str(age_group_id))
+        logger.debug("save_model age_group_id: %s", age_group_id)
         if sex == 'm':
             age_group = obj_age_group.age_group_m
         else:
