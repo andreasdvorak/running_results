@@ -8,7 +8,7 @@ db-data
 fontawesome
 *.log
 logs/*
-*/migrations/*
+**/migrations
 */__pycache__/*
 __pycache__
 postgres
