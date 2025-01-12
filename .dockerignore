@@ -5,9 +5,12 @@
 .dockerignore
 .gitignore
 .pre-commit-config.yaml
+*/__pycache__/*
+__pycache__
 CHANGELOG.md
 CONTRIBUTING.md
 docker-compose.yml
 Dockerfile
 LICENSE
+postgres
 README.md

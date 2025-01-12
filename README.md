@@ -53,7 +53,7 @@ If DEBUG equals "True", ALLOWED_HOSTS can be empty.
 
 For local testing use: localhost,127.0.0.1
 
-    docker compose up
+    docker compose up -d
 
 ## Database
 

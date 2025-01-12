@@ -157,15 +157,15 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'Simple_Format'
         },
-#        'file': {
-#            'level': 'DEBUG',
-#            'class': 'logging.FileHandler',
-#            'filename': './logs/debug.log',
-#            'formatter': 'verbose'
-#        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './logs/output.log',
+            'formatter': 'verbose'
+        },
         'rotated_logs': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'running_results.log',
+            'filename': './logs/output.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 5,
             'formatter': 'verbose',

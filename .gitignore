@@ -4,6 +4,7 @@
 .vscode
 bootstrap
 db.sqlite3
+db-data
 fontawesome
 *.log
 logs/*
