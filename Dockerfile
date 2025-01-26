@@ -1,5 +1,12 @@
 FROM python:3.10.12
 
+# for test environment to run with the same ids than local user
+# to be able to mount local file system and view logs as local user
+ARG UID=1000
+ARG GID=1000
+
+USER root
+
 WORKDIR /app
 
 # By copying over requirements first, we make sure that Docker will cache
@@ -7,16 +14,20 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-#RUN useradd -m -r appuser && \
-#   chown -R appuser /app
+# only for test enviroment
+RUN useradd -m -r -u $UID appuser
+RUN groupmod -g $GID appuser
 
 # Now copy in our code, and run it
 COPY src/ .
 
 RUN mkdir /app/logs
 
-#RUN chown -R appuser:appuser /app
+# only for test enviroment
+RUN chown -R $UID:$GID /app
 
-#USER appuser
+# only for test enviroment
+USER appuser
+
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -167,6 +167,14 @@ def home_view(request, *args, **kwargs):
 
 
 def record_list_m_view(request):
+    """create the record list for male
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug('create record list male')
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
@@ -247,7 +255,15 @@ def record_list_w_view(request):
 
 
 def statistics_view(request):
-    logger.debug('show statistic')
+    """generate view for statistics
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    logger.debug(f"show statistic")
     statistics = []
 
     event_count = Event.objects.all().count()
@@ -301,6 +317,14 @@ def years_with_annual_records_m_view(request):
 
 
 def years_with_annual_records_w_view(request):
+    """_summary_
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     years = Helper.get_years_with_events()
     context = {
         "year_list": years
@@ -309,6 +333,14 @@ def years_with_annual_records_w_view(request):
 
 
 def years_with_events_view(request):
+    """show the years with events
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     years = Helper.get_years_with_events()
     context = {
         "year_list": years

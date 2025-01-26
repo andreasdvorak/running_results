@@ -5,4 +5,4 @@ class ResultsAppConfig(AppConfig):
     # type of the automatically created primary key
     default_auto_field = 'django.db.models.AutoField'
     name = 'resultsapp'
-    verbose_name = "Rock ’n’ roll"
+    verbose_name = "Result App"
