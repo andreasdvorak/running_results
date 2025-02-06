@@ -4,6 +4,6 @@ django-bootstrap-static==5.3.3
 django-environ==0.11.2
 pylint-django==2.6.1
 psycopg2-binary==2.9.10
-pytz==2024.2
+pytz==2025.1
 sqlparse==0.5.2
 pre-commit==4.0.1
