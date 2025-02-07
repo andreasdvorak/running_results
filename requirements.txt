@@ -1,7 +1,7 @@
 asgiref==3.8.1
 Django==5.1.6
 django-bootstrap-static==5.3.3
-django-environ==0.11.2
+django-environ==0.12.0
 pylint-django==2.6.1
 psycopg2-binary==2.9.10
 pytz==2025.1
