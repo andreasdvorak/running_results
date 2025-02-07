@@ -97,6 +97,9 @@ Activation of virtual env
 Installation of requirements
     pip install -r requirements.txt
 
+Leave venv
+    deactivate
+
 ## PyLint
 https://learndjango.com/tutorials/pre-commit-django
 
