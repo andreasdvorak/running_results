@@ -100,17 +100,6 @@ Installation of requirements
 Leave venv
     deactivate
 
-## PyLint
-https://learndjango.com/tutorials/pre-commit-django
-
-    sudo apt install pylint
-
-Test everything
-    pre-commit run --all-files
-
-Run manually
-    pylint $(git ls-files '*.py') --generated-members=objects,id
-
 ## Cleanup
 To rest the database and caches to this
     rm postgres

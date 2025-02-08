@@ -1,4 +1,7 @@
+"""Module rendering html files"""
+
 import logging
+
 from django.shortcuts import render, get_object_or_404
 from .forms import EventsForm
 from .helper import Helper
@@ -8,6 +11,15 @@ logger = logging.getLogger('console_file')
 
 
 def annual_records_m_view(request, year):
+    """render html file to show annual records male for a year
+
+    Args:
+        request (_type_): _description_
+        year (_type_): year to show the records
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug("create annual record list male for year %s", year)
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
@@ -54,6 +66,15 @@ def annual_records_m_view(request, year):
 
 
 def annual_records_w_view(request, year):
+    """render html file to show annual records female for a year
+
+    Args:
+        request (_type_): _description_
+        year (_type_): year to show the records
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug("create annual record list male for year %s", year)
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
@@ -100,10 +121,26 @@ def annual_records_w_view(request, year):
 
 
 def about_view(request, *args, **kwargs):
+    """render html file about the software
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return render(request, "about.html", {})
 
 
 def club_view(request):
+    """_summary_
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     obj = Club.objects.all()
     context = {
         "object": obj
@@ -112,6 +149,11 @@ def club_view(request):
 
 
 def discipline_detail_view(request, id):
+    """render html file to show the details of one discipline
+
+    Returns:
+        _type_: _description_
+    """
     obj = get_object_or_404(DisciplineDistance, id=id)
     obj.min = Helper.convert_from_seconds(obj.min)
     obj.max = Helper.convert_from_seconds(obj.max)
@@ -122,6 +164,14 @@ def discipline_detail_view(request, id):
 
 
 def discipline_list_view(request):
+    """render html file to list the disclines
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     queryset_distance = DisciplineDistance.objects.all()
     queryset_time = DisciplineTime.objects.all()
     context = {
@@ -132,6 +182,14 @@ def discipline_list_view(request):
 
 
 def event_create_view(request):
+    """render html file to create an event
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     form = EventsForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -143,6 +201,15 @@ def event_create_view(request):
 
 
 def event_for_year_list_view(request, year):
+    """render html for the view of events of one year
+
+    Args:
+        request (_type_): _description_
+        year (_type_): year to show the events for
+
+    Returns:
+        _type_: _description_
+    """
     queryset = Event.objects.filter(date__iregex=r"{}.*".format(year)).order_by('-date')
     years = Helper.get_years_with_events()
     context = {
@@ -153,6 +220,15 @@ def event_for_year_list_view(request, year):
 
 
 def event_detail_view(request, id):
+    """render html for event details
+
+    Args:
+        request (_type_): _description_
+        id (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     obj = get_object_or_404(Event, id=id)
     context = {
         "object": obj
@@ -161,6 +237,14 @@ def event_detail_view(request, id):
 
 
 def home_view(request, *args, **kwargs):
+    """render home.html
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     print(args, kwargs)
     print(request.user)
     return render(request, "home.html", {})
@@ -215,6 +299,14 @@ def record_list_m_view(request):
 
 
 def record_list_w_view(request):
+    """create record list for female
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug('create record list female')
     discipline_distance_queryset = DisciplineDistance.objects.all()
     records_distance = []
@@ -263,7 +355,7 @@ def statistics_view(request):
     Returns:
         _type_: _description_
     """
-    logger.debug(f"show statistic")
+    logger.debug("show statistic")
     statistics = []
 
     event_count = Event.objects.all().count()

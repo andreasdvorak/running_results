@@ -1,3 +1,4 @@
+"""Module for actions"""
 import csv
 import logging
 from django.http import HttpResponse
@@ -5,8 +6,18 @@ from django.utils.encoding import smart_str
 
 logger = logging.getLogger('console_file')
 
-
+# TODO: try with pandas
 def export_member_csv(modeladmin, request, queryset):
+    """export member to csv file
+
+    Args:
+        modeladmin (_type_): _description_
+        request (_type_): _description_
+        queryset (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug('export member to csv')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=member_export.csv'
@@ -33,16 +44,26 @@ def export_member_csv(modeladmin, request, queryset):
 
 export_member_csv.short_description = "Export Member CSV"
 
-
+# TODO: try with pandas
 def export_results_csv(modeladmin, request, queryset):
+    """Export results to csv file
+
+    Args:
+        modeladmin (_type_): _description_
+        request (_type_): _description_
+        queryset (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     logger.debug('export result to csv')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=results_export.csv'
     writer = csv.writer(response, csv.excel)
     # BOM (optional...Excel needs it to open UTF-8 file properly)
-    response.write(u'\ufeff'.encode('utf8'))
+    response.write('\ufeff'.encode('utf8'))
     writer.writerow([
-        # smart_str(u"ID"),
+        # smart_str("ID"),
         smart_str("Result_Value"),
         smart_str("Discipline"),
         smart_str("Event"),
@@ -69,4 +90,4 @@ def export_results_csv(modeladmin, request, queryset):
     return response
 
 
-export_results_csv.short_description = u"Export Results CSV"
+export_results_csv.short_description = "Export Results CSV"

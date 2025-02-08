@@ -1,3 +1,4 @@
+"""Module for admin tasks"""
 import csv
 import io
 import logging
@@ -15,10 +16,23 @@ logger = logging.getLogger('console_file')
 
 
 class CsvImportForm(forms.Form):
+    """Form to import a csv file
+
+    Args:
+        forms (_type_): _description_
+    """
     csv_file = forms.FileField()
 
 
 class AgeGroupAdmin(admin.ModelAdmin):
+    """Administration of age groups
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('age', 'age_group_m', 'age_group_w')
 
     # begin csv import
@@ -31,7 +45,16 @@ class AgeGroupAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
+    # TODO: try with pandas
     def import_csv(self, request):
+        """Import csv file with age groups
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
@@ -59,6 +82,14 @@ class AgeGroupAdmin(admin.ModelAdmin):
 
 
 class ClubAdmin(admin.ModelAdmin):
+    """Class for adminstration of the club details
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('name', 'email', 'info', 'allow_public_record')
 
     # only one instance allowed
@@ -69,6 +100,14 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class DisciplineDistanceAdmin(admin.ModelAdmin):
+    """Administration of distance disciplines
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('sort', 'name', 'min', 'max')
     delete_display = ('sort', 'name', 'min', 'max')
 
@@ -82,7 +121,16 @@ class DisciplineDistanceAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
+    # TODO: try with pandas
     def import_csv(self, request):
+        """Import csv file with distance disciplines
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
@@ -115,6 +163,14 @@ class DisciplineDistanceAdmin(admin.ModelAdmin):
 
 
 class DisciplineTimeAdmin(admin.ModelAdmin):
+    """Administration of time disciplines
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('sort', 'name', 'min', 'max')
     delete_display = ('sort', 'name', 'min', 'max')
 
@@ -128,7 +184,16 @@ class DisciplineTimeAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
+    # TODO: try with pandas
     def import_csv(self, request):
+        """Import csv file
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
@@ -160,6 +225,14 @@ class DisciplineTimeAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
+    """Administration of events
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('date', 'location', 'custom_url', 'note')
     list_filter = ('date', 'location')
 
@@ -173,7 +246,16 @@ class EventAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
+    # TODO: try pandas
     def import_csv(self, request):
+        """Import csv file
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
@@ -203,12 +285,29 @@ class EventAdmin(admin.ModelAdmin):
         # end csv import
 
     def custom_url(self, obj):
+        """_summary_
+
+        Args:
+            obj (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         return format_html('<a href="{0}" >{0}</a>&nbsp;', obj.website)
+
     custom_url.short_description = 'Website'
     custom_url.admin_order_field = 'website'
 
 
 class MemberAdmin(admin.ModelAdmin):
+    """Adminstration of member
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     list_display = ('lastname', 'firstname', 'sex', 'year_of_birth')
     list_filter = ('lastname', 'firstname', 'sex', 'year_of_birth')
     search_fields = ("lastname__startswith", "firstname__startswith")
@@ -226,6 +325,14 @@ class MemberAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def import_csv(self, request):
+        """Import csv file
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if request.method == "POST":
             # convert from binary to text
             with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
@@ -256,6 +363,14 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class ResultDistanceAdmin(admin.ModelAdmin):
+    """Administration of distance results
+
+    Args:
+        admin (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     # what files are shown in form
     fields = ['result_value', 'discipline_id', 'event_id', 'member_id']
     # show result data
@@ -265,9 +380,17 @@ class ResultDistanceAdmin(admin.ModelAdmin):
 
     actions = [export_results_csv]
 
-    # define the format of result_value, otherwise seconds are missing
     def time_seconds(self, obj):
+        """define the format of result_value, otherwise seconds are missing
+
+        Args:
+            obj (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         return obj.result_value.strftime("%H:%M:%S")
+
     time_seconds.short_description = 'Time'
 
     def save_model(self, request, obj, form, change):
@@ -300,6 +423,11 @@ class ResultDistanceAdmin(admin.ModelAdmin):
 
 
 class ResultTimeAdmin(admin.ModelAdmin):
+    """Administration of time results
+
+    Args:
+        admin (_type_): _description_
+    """
     # what files are shown in form
     fields = ['result_value', 'discipline_id', 'event_id', 'member_id']
     # show result data

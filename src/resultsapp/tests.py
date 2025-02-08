@@ -1,7 +1,14 @@
+"""module for test cases"""
+
 from django.test import TestCase
-from models import AgeGroup
+from .models import AgeGroup
 
 class AgeGroupTestCase(TestCase):
+    """Test case for age groups
+
+    Args:
+        TestCase (_type_): _description_
+    """
     def setUp(self):
         AgeGroup.objects.create(age="150", age_group_m="M150", age_group_w="W150")
 
