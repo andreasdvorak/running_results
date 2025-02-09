@@ -1,3 +1,5 @@
+"""Module to define urls for views"""
+
 from django.urls import path
 from .views import (
     annual_records_m_view,
