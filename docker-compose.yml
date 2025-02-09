@@ -5,23 +5,29 @@ services:
             - "8000:8000"
         volumes:
             - ./logs:/app/logs
-        links:
-            - db
+        depends_on:
+            db:
+                condition: service_healthy
 
     db:
-        image: "postgres:15.10"
+        image: "postgres:15.19"
         ports:
             - "5432:5432"
         environment:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         volumes:
             - ./db-data:/var/lib/postgresql/data/
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
 
     # database administration
     adminer:
-        image: adminer
+        image: "adminer:6.0.1"
         environment:
-            ADMINER_DEFAULT_SERVER: postgres_server
+            ADMINER_DEFAULT_SERVER: db
         restart: always
         ports:
             - 8080:8080

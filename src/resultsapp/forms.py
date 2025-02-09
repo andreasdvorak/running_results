@@ -16,7 +16,8 @@ class EventsForm(forms.ModelForm):
                                widget=forms.TextInput(attrs={"placeholder": "Ort", 'size': '40'}))
     website = forms.CharField(required=False, label="Website", max_length=200,
                               widget=forms.TextInput(attrs={'size': '40'}))
-    notes = forms.CharField(required=False, label="Note", max_length=200, widget=forms.TextInput(attrs={'size': '40'}))
+    notes = forms.CharField(required=False, label="Note", max_length=200,
+                            widget=forms.TextInput(attrs={'size': '40'}))
 
     class Meta:
         """Define fields to show

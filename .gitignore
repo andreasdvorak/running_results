@@ -1,7 +1,14 @@
+# Development environment
 .cache
 .env
+env
+venv
+/.venv
 .idea
 .vscode
+*.code-workspace
+
+# Source control
 bootstrap
 db.sqlite3
 db-data
@@ -13,4 +20,3 @@ logs/*
 __pycache__
 postgres
 running_results/.env
-venv

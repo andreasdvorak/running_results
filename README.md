@@ -72,40 +72,6 @@ If using docker
 # Open web site
 http://localhost:8000
 
-## Language Settings
-
-## Getting Help
-
-## Contributors
-
-## Demo
-
-# Development
-## Virtualenv
-Installation of virtualenv
-    pip install virtualenv
-
-On Debian/Ubuntu systems
-    apt install python3.10-venv
-
-Creation of virtual env
-    python3 -m venv venv
-
-Activation of virtual env
-    source venv/bin/activate
-
-Installation of requirements
-    pip install -r requirements.txt
-
-Leave venv
-    deactivate
-
-## Cleanup
-To rest the database and caches to this
-    rm postgres
-    rm -rf resultapp/__pycache__
-    rm -rf running_results/__pycache__
-
 
 # Adminer
 Adminer (formerly phpMinAdmin) is a full-featured database management tool written in PHP
