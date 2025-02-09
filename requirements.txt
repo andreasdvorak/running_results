@@ -6,4 +6,4 @@ pylint-django==2.6.1
 psycopg2-binary==2.9.10
 pytz==2025.1
 sqlparse==0.5.3
-pre-commit==4.0.1
+pre-commit==4.1.0
