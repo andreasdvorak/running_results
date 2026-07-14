@@ -1,4 +1,4 @@
-asgiref==3.11.1
+asgiref==3.12.1
 Django==6.0.5
 django-bootstrap-static==5.3.3
 django-environ==0.13.0
