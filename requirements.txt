@@ -5,5 +5,5 @@ django-environ==0.13.0
 pylint-django==2.7.0
 psycopg2-binary==2.9.12
 pytz==2026.2
-sqlparse==0.5.5
+sqlparse==0.6.0
 pre-commit==4.6.0
