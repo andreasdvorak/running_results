@@ -9,7 +9,10 @@ from django.urls import path
 from django.utils.html import format_html
 from .actions import export_member_csv, export_results_csv
 from .helper import Helper
-from .models import AgeGroup, Club, Event, DisciplineDistance, DisciplineTime, Member, ResultDistance, ResultTime
+from .models import (
+    AgeGroup, Club, Event, DisciplineDistance, DisciplineTime, Member,
+    ResultDistance, ResultTime,
+)
 
 # Get an instance of a logger
 logger = logging.getLogger('console_file')
@@ -57,7 +60,9 @@ class AgeGroupAdmin(admin.ModelAdmin):
         """
         if request.method == "POST":
             # convert from binary to text
-            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+            with io.TextIOWrapper(
+                    request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                ) as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug("row in csv file: %s", row)
@@ -133,7 +138,9 @@ class DisciplineDistanceAdmin(admin.ModelAdmin):
         """
         if request.method == "POST":
             # convert from binary to text
-            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+            with io.TextIOWrapper(
+                    request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                ) as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug("row in csv file: %s", row)
@@ -196,7 +203,9 @@ class DisciplineTimeAdmin(admin.ModelAdmin):
         """
         if request.method == "POST":
             # convert from binary to text
-            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+            with io.TextIOWrapper(
+                    request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                ) as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug("row in csv file: %s", row)
@@ -206,7 +215,10 @@ class DisciplineTimeAdmin(admin.ModelAdmin):
                     sort_max = Helper.get_highest_discipline_time_sort()
                     logger.debug("sort_max: %s", sort_max)
                     sort = sort_max + 1
-                    logger.debug("values to import: %s, %s, %s, %s", sort, min_value, max_value, name)
+                    logger.debug(
+                        "values to import: %s, %s, %s, %s",
+                        sort, min_value, max_value, name
+                    )
                     DisciplineTime.objects.create(
                         sort=sort,
                         min=min_value,
@@ -258,7 +270,9 @@ class EventAdmin(admin.ModelAdmin):
         """
         if request.method == "POST":
             # convert from binary to text
-            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+            with io.TextIOWrapper(
+                    request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                ) as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug("row in csv file: %s", row)
@@ -335,7 +349,9 @@ class MemberAdmin(admin.ModelAdmin):
         """
         if request.method == "POST":
             # convert from binary to text
-            with io.TextIOWrapper(request.FILES["csv_file"], encoding="utf-8", newline='\n') as text_file:
+            with io.TextIOWrapper(
+                    request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                ) as text_file:
                 reader = csv.reader(text_file, delimiter=';')
                 for row in reader:
                     logger.debug("row in csv file: %s", row)

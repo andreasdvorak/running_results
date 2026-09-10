@@ -19,7 +19,7 @@ from .views import (
 )
 
 # url namespace, if there are several apps
-app_name = 'resultsapp'
+app_name = 'resultsapp'  # pylint: disable=invalid-name
 
 urlpatterns = [
     path('annualrecordlistm', years_with_annual_records_m_view, name='annual-record-list-m'),

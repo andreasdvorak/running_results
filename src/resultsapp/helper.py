@@ -119,5 +119,5 @@ class Helper():
         Returns:
             string: year
         """
-        year = str(event).split("-")[0]
+        year = str(event).split("-", maxsplit=1)[0]
         return year
