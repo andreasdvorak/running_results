@@ -1,4 +1,5 @@
 """Module to create forms"""
+# pylint: disable=too-few-public-methods
 
 from django import forms
 from .models import Event, ResultDistance

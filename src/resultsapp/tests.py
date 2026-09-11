@@ -10,8 +10,11 @@ class AgeGroupTestCase(TestCase):
         TestCase (_type_): _description_
     """
     def setUp(self):
-        AgeGroup.objects.create(age="150", age_group_m="M150", age_group_w="W150")
+        AgeGroup.objects.create(age=50, age_group_m="M50", age_group_w="W50")
 
     def test_show_age_group(self):
-        age_150 = AgeGroup.objects.get(age="150")
-        self.assertEqual()
+        """Verify that the age group can be retrieved."""
+        age_50 = AgeGroup.objects.get(age=50)
+        self.assertEqual(age_50.age, 50)
+        self.assertEqual(age_50.age_group_m, "M50")
+        self.assertEqual(age_50.age_group_w, "W50")

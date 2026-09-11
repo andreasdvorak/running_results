@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>List of years with female results</h1>
+
+{% if year_choices %}
+<label for="year-select">year</label>
+<select class="form-control" id="year-select" onchange="window.location.href = this.value;">
+    {% for year in year_choices %}
+    <option value="{{ year.url }}">{{ year.value }}</option>
+    {% endfor %}
+</select>
+{% else %}
+<p>There are no results</p>
+{% endif %}
+{% endblock %}

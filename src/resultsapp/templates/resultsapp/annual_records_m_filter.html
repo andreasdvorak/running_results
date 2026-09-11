@@ -4,18 +4,14 @@
 
 <h1>List of years</h1>
 
-{% if year_list %}
-    <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        years with events
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {% for year in year_list %}
-        <a class="dropdown-item" href="{% url 'resultsapp:annual-records-m-for-year-list' year %}">{{ year }}</a>
-        {% endfor %}
-    </div>
-    </div>
+{% if year_choices %}
+<label for="year-select">year</label>
+<select class="form-control" id="year-select" onchange="window.location.href = this.value;">
+    {% for year in year_choices %}
+    <option value="{{ year.url }}">{{ year.value }}</option>
+    {% endfor %}
+</select>
 {% else %}
-    <p>There are no events</p>
+<p>There are no events</p>
 {% endif %}
 {% endblock %}

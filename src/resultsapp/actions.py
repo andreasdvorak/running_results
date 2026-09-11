@@ -7,12 +7,12 @@ from django.utils.encoding import smart_str
 logger = logging.getLogger('console_file')
 
 # TODO: try with pandas
-def export_member_csv(modeladmin, request, queryset):
+def export_member_csv(_modeladmin, _request, queryset):
     """export member to csv file
 
     Args:
-        modeladmin (_type_): _description_
-        request (_type_): _description_
+        _modeladmin (_type_): _description_
+        _request (_type_): _description_
         queryset (_type_): _description_
 
     Returns:
@@ -45,12 +45,12 @@ def export_member_csv(modeladmin, request, queryset):
 export_member_csv.short_description = "Export Member CSV"
 
 # TODO: try with pandas
-def export_results_csv(modeladmin, request, queryset):
+def export_results_csv(_modeladmin, _request, queryset):
     """Export results to csv file
 
     Args:
-        modeladmin (_type_): _description_
-        request (_type_): _description_
+        _modeladmin (_type_): _description_
+        _request (_type_): _description_
         queryset (_type_): _description_
 
     Returns:
@@ -73,10 +73,11 @@ def export_results_csv(modeladmin, request, queryset):
         smart_str("YearOfBirth"),
     ])
     for obj in queryset:
-        lastname = str(obj.member_id).split(" ")[0][:-1]
-        firstname = str(obj.member_id).split(" ")[1]
-        sex = str(obj.member_id).split(" ")[2]
-        year_of_birth = str(obj.member_id).split(" ")[3]
+        member_data = str(obj.member_id).split(" ", maxsplit=3)
+        lastname = member_data[0][:-1]
+        firstname = member_data[1]
+        sex = member_data[2]
+        year_of_birth = member_data[3]
         writer.writerow([
             # smart_str(obj.pk),
             smart_str(obj.result_value),

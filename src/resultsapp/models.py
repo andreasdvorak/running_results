@@ -1,4 +1,5 @@
 """Module to define the database models"""
+# pylint: disable=too-few-public-methods
 
 import datetime
 import logging
@@ -77,7 +78,8 @@ class DisciplineDistance(models.Model):
         Returns:
             _type_: _description_
         """
-        return reverse("resultsapp:discipline_distance_details", kwargs={"id": self.id})
+        return reverse(
+            "resultsapp:discipline_distance_details", kwargs={"discipline_id": self.id})
 
     # order first for sort and than name
     class Meta:
@@ -144,7 +146,7 @@ class Event(models.Model):
             _type_: _description_
         """
         # f"/user/{self.id}/" # app_name::name in urls.py
-        return reverse("resultsapp:events-detail", kwargs={"id": self.id})
+        return reverse("resultsapp:events-detail", kwargs={"event_id": self.id})
 
     # order first the latest date and than location
     class Meta:
