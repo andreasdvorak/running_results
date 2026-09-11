@@ -18,19 +18,69 @@
 <p></p>
 
 {% if object_list %}
-<table class="table table-striped">
-    <tr>
-        <th scope="col">Datum</th>
-        <th scope="col">Ort</th>
-    </tr>
-    {% for instance in object_list %}
-    <tr>
-        <td><a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a></td>
-        <td><a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></td>
+<table class="table table-striped results-table">
+    <thead>
+        <tr>
+            <th><input class="form-control form-control-sm column-search" type="search" placeholder="Search date"
+                    aria-label="Search date"></th>
+            <th><input class="form-control form-control-sm column-search" type="search" placeholder="Search location"
+                    aria-label="Search location"></th>
+        </tr>
+        <tr>
+            <th scope="col" tabindex="0">Datum</th>
+            <th scope="col" tabindex="0">Ort</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instance in object_list %}
+        <tr>
+            <td><a href='{{ instance.get_absolute_url }}'>{{ instance.date }}</a></td>
+            <td><a href='{{ instance.get_absolute_url }}'>{{ instance.location }}</a></td>
+        </tr>
         {% endfor %}
-    </tr>
+    </tbody>
 </table>
 {% else %}
 <p>There are no events</p>
 {% endif %}
+
+<script>
+    document.querySelectorAll('.results-table').forEach(function (table) {
+        const headers = table.querySelectorAll('thead tr:nth-child(2) th');
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        const searches = table.querySelectorAll('.column-search');
+
+        function updateRows() {
+            rows.forEach(function (row) {
+                row.hidden = Array.from(searches).some(function (search, index) {
+                    return !row.cells[index].textContent.toLowerCase().includes(search.value.toLowerCase());
+                });
+            });
+        }
+
+        searches.forEach(function (search) {
+            search.addEventListener('input', updateRows);
+        });
+
+        headers.forEach(function (header, columnIndex) {
+            header.style.cursor = 'pointer';
+            header.setAttribute('aria-sort', 'none');
+            header.addEventListener('click', function () {
+                const ascending = header.getAttribute('aria-sort') !== 'ascending';
+                headers.forEach(function (item) {
+                    item.setAttribute('aria-sort', 'none');
+                });
+                header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+                rows.sort(function (firstRow, secondRow) {
+                    const first = firstRow.cells[columnIndex].textContent.trim().toLowerCase();
+                    const second = secondRow.cells[columnIndex].textContent.trim().toLowerCase();
+                    return ascending ? first.localeCompare(second, undefined, { numeric: true }) : second.localeCompare(first, undefined, { numeric: true });
+                });
+                rows.forEach(function (row) {
+                    table.querySelector('tbody').appendChild(row);
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}
