@@ -127,7 +127,7 @@ def _annual_record_year_choices(sex, selected_year=None):
     """Build year options for annual record views."""
     return [
         {"url": reverse(
-            "resultsapp:annual-records-{}-for-year-list".format(sex),
+            f"resultsapp:annual-records-{sex}-for-year-list",
             kwargs={"year": year}),
          "value": year,
          "selected_attribute": " selected" if year == selected_year else ""}
@@ -424,7 +424,7 @@ def _annual_results_context(request, year, sex):
     year_choices = [
         {"value": available_year,
          "url": reverse(
-             "resultsapp:annual-results-{}-for-year-list".format(sex),
+             f"resultsapp:annual-results-{sex}-for-year-list",
              kwargs={"year": available_year}),
          "selected_attribute": " selected" if available_year == year else ""}
         for available_year in Helper.get_years_with_events()
@@ -441,6 +441,24 @@ def _annual_results_context(request, year, sex):
         "discipline_selected": bool(selected_discipline_type),
         "year": year,
     }
+
+
+def _count_results_for_year(year, result_querysets):
+    """Return total, male, and female result counts for a year."""
+    result_counter = 0
+    male_result_counter = 0
+    female_result_counter = 0
+    for result_queryset in result_querysets:
+        for result in result_queryset:
+            logger.debug(str(result.event_id))
+            if str(year) == Helper.get_year_from_result_event(result.event_id):
+                result_counter += 1
+                sex = Helper.get_sex_from_result_member(result.member_id)
+                if sex == "m":
+                    male_result_counter += 1
+                elif sex == "w":
+                    female_result_counter += 1
+    return result_counter, male_result_counter, female_result_counter
 
 
 def statistics_view(request):
@@ -472,19 +490,9 @@ def statistics_view(request):
     result_time_queryset = ResultTime.objects.all()
     for year in years:
         logger.debug("year: %s", year)
-        result_counter = 0
-        male_result_counter = 0
-        female_result_counter = 0
-        for result_queryset in (result_distance_queryset, result_time_queryset):
-            for result in result_queryset:
-                logger.debug(str(result.event_id))
-                if str(year) == Helper.get_year_from_result_event(result.event_id):
-                    result_counter = result_counter + 1
-                    sex = Helper.get_sex_from_result_member(result.member_id)
-                    if sex == "m":
-                        male_result_counter = male_result_counter + 1
-                    elif sex == "w":
-                        female_result_counter = female_result_counter + 1
+        result_counter, male_result_counter, female_result_counter = (
+            _count_results_for_year(
+                year, (result_distance_queryset, result_time_queryset)))
         statistics.append(f"Number of results in {year}: {result_counter}")
         statistics.append(
             f"Number of results male in {year}: {male_result_counter}")
