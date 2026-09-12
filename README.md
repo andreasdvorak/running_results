@@ -89,15 +89,15 @@ On Debian/Ubuntu systems
     apt install python3.10-venv
 
 Creation of virtual env
-    python3 -m venv venv
+    python3 -m venv env
 
 Activation of virtual env
-    source venv/bin/activate
+    source env/bin/activate
 
 Installation of requirements
     pip install -r requirements.txt
 
-Leave venv
+Leave virtual environemnt
     deactivate
 
 ## Development checks

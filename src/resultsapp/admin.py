@@ -2,8 +2,11 @@
 import csv
 import io
 import logging
+from datetime import datetime
 from django import forms
 from django.contrib import admin
+from django.contrib import messages
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import path
 from django.utils.html import format_html
@@ -396,6 +399,88 @@ class ResultDistanceAdmin(admin.ModelAdmin):
 
     actions = [export_results_csv]
 
+    change_list_template = "resultsapp/result_distances_changelist.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import-csv/', self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        """Import distance results from a semicolon-separated CSV file."""
+        if request.method == "POST":
+            try:
+                with transaction.atomic():
+                    with io.TextIOWrapper(
+                            request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                        ) as text_file:
+                        reader = csv.reader(text_file, delimiter=';')
+                        imported_count = 0
+                        for row_number, row in enumerate(reader, start=1):
+                            if len(row) != 8:
+                                raise ValueError(
+                                    f"Line {row_number}: 8 columns expected."
+                                )
+                            (discipline_name, result_value, firstname, lastname,
+                             sex, year_of_birth, event_date, location) = row
+                            try:
+                                discipline = DisciplineDistance.objects.get(
+                                    name=discipline_name
+                                )
+                                event = Event.objects.get(
+                                    date=event_date, location=location
+                                )
+                                member = Member.objects.get(
+                                    firstname=firstname,
+                                    lastname=lastname,
+                                    sex=sex,
+                                    year_of_birth=year_of_birth,
+                                )
+                            except (DisciplineDistance.DoesNotExist,
+                                    DisciplineDistance.MultipleObjectsReturned,
+                                    Event.DoesNotExist, Event.MultipleObjectsReturned,
+                                    Member.DoesNotExist, Member.MultipleObjectsReturned) as error:
+                                raise ValueError(
+                                    f"Zeile {row_number}: Disziplin, Veranstaltung "
+                                    "oder Person nicht gefunden."
+                                ) from error
+
+                            age = event.date.year - member.year_of_birth
+                            try:
+                                result_time = datetime.strptime(
+                                    result_value, "%H:%M:%S"
+                                ).time()
+                                age_group = AgeGroup.objects.get(age=age)
+                            except (ValueError, AgeGroup.DoesNotExist) as error:
+                                raise ValueError(
+                                    f"Zeile {row_number}: Ungültige Zeit oder "
+                                    f"keine Altersklasse für das Alter {age}."
+                                ) from error
+
+                            ResultDistance.objects.create(
+                                result_value=result_time,
+                                discipline_id=discipline,
+                                event_id=event,
+                                member_id=member,
+                                age_group=(age_group.age_group_m
+                                           if member.sex == 'm'
+                                           else age_group.age_group_w),
+                            )
+                            imported_count += 1
+            except (KeyError, ValueError, csv.Error) as error:
+                self.message_user(request, str(error), level=messages.ERROR)
+                form = CsvImportForm()
+                return render(request, "resultsapp/csv_form.html", {"form": form})
+
+            self.message_user(
+                request, f"{imported_count} Ergebnisse wurden importiert."
+            )
+            return redirect("..")
+        form = CsvImportForm()
+        return render(request, "resultsapp/csv_form.html", {"form": form})
+
     def time_seconds(self, obj):
         """define the format of result_value, otherwise seconds are missing
 
@@ -452,6 +537,86 @@ class ResultTimeAdmin(admin.ModelAdmin):
     list_filter = ('age_group', 'discipline_id', 'member_id', 'event_id')
 
     actions = [export_results_csv]
+
+    change_list_template = "resultsapp/result_times_changelist.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('import-csv/', self.import_csv),
+        ]
+        return my_urls + urls
+
+    def import_csv(self, request):
+        """Import time results from a semicolon-separated CSV file."""
+        if request.method == "POST":
+            try:
+                with transaction.atomic():
+                    with io.TextIOWrapper(
+                            request.FILES["csv_file"], encoding="utf-8", newline='\n'
+                        ) as text_file:
+                        reader = csv.reader(text_file, delimiter=';')
+                        imported_count = 0
+                        for row_number, row in enumerate(reader, start=1):
+                            if len(row) != 8:
+                                raise ValueError(
+                                    f"Line {row_number}: 8 columns expected."
+                                )
+                            (discipline_name, result_value, firstname, lastname,
+                             sex, year_of_birth, event_date, location) = row
+                            try:
+                                discipline = DisciplineTime.objects.get(
+                                    name=discipline_name
+                                )
+                                event = Event.objects.get(
+                                    date=event_date, location=location
+                                )
+                                member = Member.objects.get(
+                                    firstname=firstname,
+                                    lastname=lastname,
+                                    sex=sex,
+                                    year_of_birth=year_of_birth,
+                                )
+                            except (DisciplineTime.DoesNotExist,
+                                    DisciplineTime.MultipleObjectsReturned,
+                                    Event.DoesNotExist, Event.MultipleObjectsReturned,
+                                    Member.DoesNotExist, Member.MultipleObjectsReturned) as error:
+                                raise ValueError(
+                                    f"Line {row_number}: Discipline, event or "
+                                    "member not found."
+                                ) from error
+
+                            age = event.date.year - member.year_of_birth
+                            try:
+                                result_value = int(result_value)
+                                age_group = AgeGroup.objects.get(age=age)
+                            except (ValueError, AgeGroup.DoesNotExist) as error:
+                                raise ValueError(
+                                    f"Line {row_number}: Invalid result value or "
+                                    f"no age group for age {age}."
+                                ) from error
+
+                            ResultTime.objects.create(
+                                result_value=result_value,
+                                discipline_id=discipline,
+                                event_id=event,
+                                member_id=member,
+                                age_group=(age_group.age_group_m
+                                           if member.sex == 'm'
+                                           else age_group.age_group_w),
+                            )
+                            imported_count += 1
+            except (KeyError, ValueError, csv.Error) as error:
+                self.message_user(request, str(error), level=messages.ERROR)
+                form = CsvImportForm()
+                return render(request, "resultsapp/csv_form.html", {"form": form})
+
+            self.message_user(
+                request, f"{imported_count} Ergebnisse wurden importiert."
+            )
+            return redirect("..")
+        form = CsvImportForm()
+        return render(request, "resultsapp/csv_form.html", {"form": form})
 
     def save_model(self, request, obj, form, change):
         # get year_of_birth
