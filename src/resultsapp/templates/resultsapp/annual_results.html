@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Results female {{ year }}</h1>
+<h1>Results {{ sex_label }} {{ year }}</h1>
 
 {% if year_list %}
 <div class="d-flex align-items-start">
@@ -71,7 +71,7 @@
     </tbody>
 </table>
 {% else %}
-<p>There are results</p>
+<p>There are no distance results</p>
 {% endif %}
 {% endif %}
 
@@ -112,7 +112,7 @@
     </tbody>
 </table>
 {% else %}
-<p>There are results</p>
+<p>There are no time results</p>
 {% endif %}
 {% endif %}
 

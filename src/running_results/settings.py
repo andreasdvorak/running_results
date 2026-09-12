@@ -164,9 +164,10 @@ LOGGING = {
             'formatter': 'verbose'
         },
         'rotated_logs': {
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': './logs/output.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'when': 'midnight',
+            'interval': 1,
             'backupCount': 5,
             'formatter': 'verbose',
             'level': 'DEBUG',

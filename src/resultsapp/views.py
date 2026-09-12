@@ -4,6 +4,7 @@ import logging
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.utils import timezone
 from .forms import EventsForm
 from .helper import Helper
 from .models import Club, DisciplineDistance, DisciplineTime, Event, ResultDistance, ResultTime
@@ -368,16 +369,11 @@ def record_list_w_view(request):
     return render(request, "resultsapp/record_list_w.html", context)
 
 
-def annual_results_m_view(request, year):
-    """Show all male results for one year."""
-    context = _annual_results_context(request, year, "m")
-    return render(request, "resultsapp/annual_results_m.html", context)
-
-
-def annual_results_w_view(request, year):
-    """Show all female results for one year."""
-    context = _annual_results_context(request, year, "w")
-    return render(request, "resultsapp/annual_results_w.html", context)
+def annual_results_view(request, year, sex):
+    """Show annual results for one sex and year."""
+    context = _annual_results_context(request, year, sex)
+    context["sex_label"] = "male" if sex == "m" else "female"
+    return render(request, "resultsapp/annual_results.html", context)
 
 
 def _annual_results_context(request, year, sex):
@@ -507,18 +503,18 @@ def statistics_view(request):
 
 def years_with_annual_results_m_view(request):
     """Show years with results for male participants."""
-    years = Helper.get_years_with_events()
-    if years:
-        return redirect("resultsapp:annual-results-m-for-year-list", year=years[0])
-    return render(request, "resultsapp/annual_results_m_filter.html", {"year_list": []})
+    return redirect(
+        "resultsapp:annual-results-m-for-year-list",
+        year=timezone.localdate().year,
+    )
 
 
 def years_with_annual_results_w_view(request):
     """Show years with results for female participants."""
-    years = Helper.get_years_with_events()
-    if years:
-        return redirect("resultsapp:annual-results-w-for-year-list", year=years[0])
-    return render(request, "resultsapp/annual_results_w_filter.html", {"year_list": []})
+    return redirect(
+        "resultsapp:annual-results-w-for-year-list",
+        year=timezone.localdate().year,
+    )
 
 
 def years_with_annual_records_m_view(request):
@@ -530,12 +526,10 @@ def years_with_annual_records_m_view(request):
     Returns:
         _type_: _description_
     """
-    years = Helper.get_years_with_events()
-    context = {
-        "year_list": years,
-        "year_choices": _annual_record_year_choices("m")
-    }
-    return render(request, "resultsapp/annual_records_m_filter.html", context)
+    return redirect(
+        "resultsapp:annual-records-m-for-year-list",
+        year=timezone.localdate().year,
+    )
 
 
 def years_with_annual_records_w_view(request):
@@ -547,12 +541,10 @@ def years_with_annual_records_w_view(request):
     Returns:
         _type_: _description_
     """
-    years = Helper.get_years_with_events()
-    context = {
-        "year_list": years,
-        "year_choices": _annual_record_year_choices("w")
-    }
-    return render(request, "resultsapp/annual_records_w_filter.html", context)
+    return redirect(
+        "resultsapp:annual-records-w-for-year-list",
+        year=timezone.localdate().year,
+    )
 
 
 def years_with_events_view(request):

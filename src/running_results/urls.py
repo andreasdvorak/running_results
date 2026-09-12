@@ -18,6 +18,10 @@ from django.urls import include, path
 
 from resultsapp.views import about_view, home_view
 
+admin.site.site_header = 'Verwaltung'
+admin.site.site_title = 'Verwaltung'
+admin.site.index_title = 'Verwaltung'
+
 urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
