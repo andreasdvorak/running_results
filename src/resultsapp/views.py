@@ -501,7 +501,7 @@ def statistics_view(request):
     return render(request, "resultsapp/statistics.html", context)
 
 
-def years_with_annual_results_m_view(request):
+def years_with_annual_results_m_view(_request):
     """Show years with results for male participants."""
     return redirect(
         "resultsapp:annual-results-m-for-year-list",
@@ -509,7 +509,7 @@ def years_with_annual_results_m_view(request):
     )
 
 
-def years_with_annual_results_w_view(request):
+def years_with_annual_results_w_view(_request):
     """Show years with results for female participants."""
     return redirect(
         "resultsapp:annual-results-w-for-year-list",
@@ -517,7 +517,7 @@ def years_with_annual_results_w_view(request):
     )
 
 
-def years_with_annual_records_m_view(request):
+def years_with_annual_records_m_view(_request):
     """_summary_
 
     Args:
@@ -532,7 +532,7 @@ def years_with_annual_records_m_view(request):
     )
 
 
-def years_with_annual_records_w_view(request):
+def years_with_annual_records_w_view(_request):
     """_summary_
 
     Args:

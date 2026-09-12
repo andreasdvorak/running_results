@@ -6,6 +6,7 @@ venv
 .idea
 .vscode
 *.code-workspace
+backups
 
 # app specific
 bootstrap

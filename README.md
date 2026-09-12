@@ -22,23 +22,25 @@ Development phase
 ## Requirements
 * Docker
 
-## Tutorial
-https://github.com/andreasdvorak/running_results/wiki/Tutorial
+## Documentation
+The [project wiki](https://github.com/andreasdvorak/running_results/wiki)
+covers setup, Docker, user workflows, testing, database management, backups,
+and troubleshooting.
 
 # Quick Start
 `$ git clone https://github.com/andreasdvorak/running_results`
 
 `$ cd running_results`
 
-Edit .env files
+Create the following environment files:
 * .env
-* running_results/.env
+* src/.env
 
 **.env**
 
 `POSTGRES_PASSWORD=<PASSWORD>`
 
-**running_results/.env**
+**src/.env**
 
 ```
 ALLOWED_HOSTS=<localhost,127.0.0.1 for Test, or public ip>
@@ -53,18 +55,18 @@ If DEBUG equals "True", ALLOWED_HOSTS can be empty.
 
 For local testing use: localhost,127.0.0.1
 
-    docker compose up -d
+    docker compose up -d --build
 
 ## Database
 
 ### Database Tables
 Now run migrations to create database tables for the apps.
-'docker compose exec web python manage.py makemigrations'
-'docker compose exec web python manage.py migrate'
+`docker compose exec web python manage.py makemigrations`
+`docker compose exec web python manage.py migrate`
 
 ## Admin User
 Create an admin superuser:
-'python manage.py createsuperuser'
+`python manage.py createsuperuser`
 
 If using docker
     docker compose exec web python manage.py createsuperuser
@@ -72,13 +74,11 @@ If using docker
 # Open web site
 http://localhost:8000
 
-## Language Settings
-
-## Getting Help
+## Getting help
+Open an issue on GitHub and include the Docker Compose status and relevant
+logs. Do not include passwords or secret keys in an issue.
 
 ## Contributors
-
-## Demo
 
 # Development
 ## Virtualenv
@@ -100,11 +100,12 @@ Installation of requirements
 Leave venv
     deactivate
 
-## Cleanup
-To rest the database and caches to this
-    rm postgres
-    rm -rf resultapp/__pycache__
-    rm -rf running_results/__pycache__
+## Development checks
+
+```bash
+docker compose run --rm web python manage.py test resultsapp
+./env/bin/pre-commit run --all-files
+```
 
 
 # Adminer
@@ -117,7 +118,7 @@ http://localhost:8080
 System: PostgreSQL
 Server: # the service name from docker-compose.yml
 Username: # from .env DB_USER
-Password: # from .env DB_USER
+Password: # from .env POSTGRES_PASSWORD
 Database: # from .env DB_NAME
 
 
