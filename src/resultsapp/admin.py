@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.urls import path
 from django.utils.html import format_html
 from .actions import export_member_csv, export_results_csv
@@ -20,6 +21,50 @@ from .models import (
 # Get an instance of a logger
 logger = logging.getLogger('console_file')
 
+
+def _find_result_references(row, discipline_model, lookup_error_message):
+    """Find the discipline, event and member referenced by an import row."""
+    try:
+        discipline = discipline_model.objects.get(name=row[0])
+        event = Event.objects.get(date=row[6], location=row[7])
+        member = Member.objects.get(
+            firstname=row[2],
+            lastname=row[3],
+            sex=row[4],
+            year_of_birth=row[5],
+        )
+    except (ObjectDoesNotExist, MultipleObjectsReturned) as error:
+        raise ValueError(lookup_error_message) from error
+    return discipline, event, member
+
+
+def _import_result_row(row, discipline_model, result_model, result_parser,
+                       error_messages):
+    """Import one result row for either result type."""
+    invalid_result_message, lookup_error_message, duplicate_error_message = error_messages
+    discipline, event, member = _find_result_references(
+        row, discipline_model, lookup_error_message
+    )
+    if result_model.objects.filter(event_id=event, member_id=member).exists():
+        raise ValueError(duplicate_error_message)
+    age = event.date.year - member.year_of_birth
+    try:
+        parsed_result = result_parser(row[1])
+        age_group = AgeGroup.objects.get(age=age)
+    except (ValueError, ObjectDoesNotExist) as error:
+        raise ValueError(
+            f"{invalid_result_message} {age}."
+        ) from error
+
+    result_model.objects.create(
+        result_value=parsed_result,
+        discipline_id=discipline,
+        event_id=event,
+        member_id=member,
+        age_group=(age_group.age_group_m
+                   if member.sex == 'm'
+                   else age_group.age_group_w),
+    )
 
 class CsvImportForm(forms.Form):
     """Form to import a csv file
@@ -423,50 +468,22 @@ class ResultDistanceAdmin(admin.ModelAdmin):
                                 raise ValueError(
                                     f"Line {row_number}: 8 columns expected."
                                 )
-                            (discipline_name, result_value, firstname, lastname,
-                             sex, year_of_birth, event_date, location) = row
-                            try:
-                                discipline = DisciplineDistance.objects.get(
-                                    name=discipline_name
-                                )
-                                event = Event.objects.get(
-                                    date=event_date, location=location
-                                )
-                                member = Member.objects.get(
-                                    firstname=firstname,
-                                    lastname=lastname,
-                                    sex=sex,
-                                    year_of_birth=year_of_birth,
-                                )
-                            except (DisciplineDistance.DoesNotExist,
-                                    DisciplineDistance.MultipleObjectsReturned,
-                                    Event.DoesNotExist, Event.MultipleObjectsReturned,
-                                    Member.DoesNotExist, Member.MultipleObjectsReturned) as error:
-                                raise ValueError(
-                                    f"Zeile {row_number}: Disziplin, Veranstaltung "
-                                    "oder Person nicht gefunden."
-                                ) from error
-
-                            age = event.date.year - member.year_of_birth
-                            try:
-                                result_time = datetime.strptime(
-                                    result_value, "%H:%M:%S"
-                                ).time()
-                                age_group = AgeGroup.objects.get(age=age)
-                            except (ValueError, AgeGroup.DoesNotExist) as error:
-                                raise ValueError(
+                            _import_result_row(
+                                row,
+                                DisciplineDistance,
+                                ResultDistance,
+                                lambda value: datetime.strptime(
+                                    value, "%H:%M:%S"
+                                ).time(),
+                                (
                                     f"Zeile {row_number}: Ungültige Zeit oder "
-                                    f"keine Altersklasse für das Alter {age}."
-                                ) from error
-
-                            ResultDistance.objects.create(
-                                result_value=result_time,
-                                discipline_id=discipline,
-                                event_id=event,
-                                member_id=member,
-                                age_group=(age_group.age_group_m
-                                           if member.sex == 'm'
-                                           else age_group.age_group_w),
+                                    "keine Altersklasse für das Alter",
+                                    "Disziplin, Veranstaltung oder Person "
+                                    "nicht gefunden.",
+                                    f"Zeile {row_number}: Für Mitglied und "
+                                    "Veranstaltung existiert bereits ein "
+                                    "Ergebnis.",
+                                ),
                             )
                             imported_count += 1
             except (KeyError, ValueError, csv.Error) as error:
@@ -562,48 +579,18 @@ class ResultTimeAdmin(admin.ModelAdmin):
                                 raise ValueError(
                                     f"Line {row_number}: 8 columns expected."
                                 )
-                            (discipline_name, result_value, firstname, lastname,
-                             sex, year_of_birth, event_date, location) = row
-                            try:
-                                discipline = DisciplineTime.objects.get(
-                                    name=discipline_name
-                                )
-                                event = Event.objects.get(
-                                    date=event_date, location=location
-                                )
-                                member = Member.objects.get(
-                                    firstname=firstname,
-                                    lastname=lastname,
-                                    sex=sex,
-                                    year_of_birth=year_of_birth,
-                                )
-                            except (DisciplineTime.DoesNotExist,
-                                    DisciplineTime.MultipleObjectsReturned,
-                                    Event.DoesNotExist, Event.MultipleObjectsReturned,
-                                    Member.DoesNotExist, Member.MultipleObjectsReturned) as error:
-                                raise ValueError(
-                                    f"Line {row_number}: Discipline, event or "
-                                    "member not found."
-                                ) from error
-
-                            age = event.date.year - member.year_of_birth
-                            try:
-                                result_value = int(result_value)
-                                age_group = AgeGroup.objects.get(age=age)
-                            except (ValueError, AgeGroup.DoesNotExist) as error:
-                                raise ValueError(
-                                    f"Line {row_number}: Invalid result value or "
-                                    f"no age group for age {age}."
-                                ) from error
-
-                            ResultTime.objects.create(
-                                result_value=result_value,
-                                discipline_id=discipline,
-                                event_id=event,
-                                member_id=member,
-                                age_group=(age_group.age_group_m
-                                           if member.sex == 'm'
-                                           else age_group.age_group_w),
+                            _import_result_row(
+                                row,
+                                DisciplineTime,
+                                ResultTime,
+                                int,
+                                (
+                                    f"Line {row_number}: Invalid result value "
+                                    "or no age group for age",
+                                    "Discipline, event or member not found.",
+                                    f"Line {row_number}: A result for this "
+                                    "member and event already exists.",
+                                ),
                             )
                             imported_count += 1
             except (KeyError, ValueError, csv.Error) as error:
