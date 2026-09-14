@@ -7,6 +7,7 @@
 .pre-commit-config.yaml
 */__pycache__/*
 __pycache__
+import
 CHANGELOG.md
 CONTRIBUTING.md
 docker-compose.yml
