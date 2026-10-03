@@ -1,4 +1,4 @@
-FROM python:3.14.7
+FROM python:3.14.8
 
 # for test environment to run with the same ids than local user
 # to be able to mount local file system and view logs as local user
