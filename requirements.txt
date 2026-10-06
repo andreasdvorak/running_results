@@ -1,5 +1,5 @@
 asgiref==3.12.1
-Django==6.1.1
+Django==6.1.2
 django-bootstrap-static==5.3.3
 django-environ==0.14.0
 pylint-django==2.8.0
